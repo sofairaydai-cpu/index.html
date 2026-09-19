@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome 🫧❄️</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        body {
+            width: 100vw;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: var(--bg-color, #f4f8fb);
+            font-family: sans-serif;
+            position: relative;
+            padding: 40px 20px;
+            overflow: hidden;
+        }
+
+        body.light-theme {
+            --bg-color: #f4f8fb;
+            --card-bg: #ffffff;
+            --text-color: #1d3557;
+            --sub-text: #6c757d;
+            --meter-bg: #e2eafc;
+            --tag-bg: #0077b6;
+            --border-gradient: linear-gradient(135deg, #0077b6, #48cae4, #90e0ef);
+            --card-shadow: 0 10px 30px rgba(0, 119, 182, 0.08);
+            --pet-bg: #ffffff;
+            --input-bg: #f8f9fa;
+        }
+
+        body.dark-theme {
+            --bg-color: #0b131f;
+            --card-bg: #111d2d;
+            --text-color: #e2eafc;
+            --sub-text: #8d99ae;
+            --meter-bg: #1d2d44;
+            --tag-bg: #48cae4;
+            --border-gradient: linear-gradient(135deg, #48cae4, #0077b6, #1d3557);
+            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            --pet-bg: #16263d;
+            --input-bg: #1a2a42;
+        }
+
+        .ambient-snow {
+            position: fixed;
+            top: -20px;
+            color: rgba(72, 202, 228, 0.6);
+            user-select: none;
+            pointer-events: none;
+            z-index: 1;
+            animation: fallDown linear infinite;
+        }
+
+        @keyframes fallDown {
+            0% { transform: translateY(-20px) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% { transform: translateY(105vh) rotate(360deg); opacity: 0; }
+        }
+
+        .welcome-card {
+            position: relative;
+            background: var(--card-bg);
+            padding: 50px 30px;
+            border-radius: 30px;
+            text-align: center;
+            user-select: none;
+            box-shadow: var(--card-shadow);
+            z-index: 10;
+            border: 2px solid transparent;
+            background-image: linear-gradient(var(--card-bg), var(--card-bg)), 
+                              var(--border-gradient);
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+            width: 320px;
+        }
+
+        .card-tag {
+            position: absolute;
+            top: -12px;
+            right: 20px;
+            background: var(--tag-bg);
+            color: #fff;
+            font-size: 10px;
+            padding: 3px 10px;
+            border-radius: 20px;
+            letter-spacing: 1px;
+            font-weight: bold;
+            box-shadow: 0 3px 10px rgba(0, 119, 182, 0.3);
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--sub-text);
+            color: var(--text-color);
+            font-size: 12px;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .main-icon-container {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            border-radius: 20px;
+            cursor: pointer;
+            margin-bottom: 15px;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+
+        .main-icon {
+            font-size: 70px;
+            display: inline-block;
+            filter: drop-shadow(0 5px 10px rgba(0,119,182,0.15));
+            transition: transform 0.1s ease;
+            pointer-events: none;
+        }
+        
+        .main-icon-container.active .main-icon {
+            transform: scale(1.15);
+        }
+
+        .text {
+            font-size: 13px;
+            letter-spacing: 1px;
+            color: var(--text-color);
+            margin-bottom: 20px;
+            font-weight: 500;
+            min-height: 20px;
+        }
+
+        .power-meter-container {
+            width: 100%;
+            height: 14px;
+            background: var(--meter-bg);
+            border-radius: 7px;
+            overflow: hidden;
+            margin-top: 10px;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .power-meter-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #0077b6, #48cae4);
+            border-radius: 7px;
+            transition: width 0.2s ease-out;
+        }
+
+        .click-instruction {
+            font-size: 11px;
+            color: var(--sub-text);
+            letter-spacing: 1px;
+            margin-top: 8px;
+        }
+
+        .footer-text {
+            margin-top: 25px;
+            font-size: 11px;
+            letter-spacing: 1.5px;
+            color: var(--sub-text);
+            user-select: none;
+            z-index: 10;
+        }
+
+        .captcha-box {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            margin-top: 5px;
+        }
+
+        .captcha-input {
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: 12px;
+            border: 1px solid var(--sub-text);
+            background: var(--input-bg);
+            color: var(--text-color);
+            font-size: 12px;
+            text-align: center;
+            outline: none;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .captcha-btn {
+            background: #0077b6;
+            color: #fff;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 3px 10px rgba(0,119,182,0.2);
+            transition: transform 0.2s;
+        }
+        .captcha-btn:active {
+            transform: scale(0.95);
+        }
+
+        .bio-choice-box {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            margin-top: 5px;
+        }
+
+        .choice-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            position: relative;
+            width: 100%;
+            min-height: 40px;
+        }
+
+        .choice-btn {
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .btn-want {
+            background: #0077b6;
+            color: #fff;
+            position: relative;
+            z-index: 20;
+        }
+
+        .btn-not {
+            background: var(--meter-bg);
+            color: var(--sub-text);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .pet-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            align-items: flex-end;
+            gap: 8px;
+            z-index: 50;
+            cursor: pointer;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            transition: all 0.5s ease;
+        }
+
+        .pet-speech-bubble {
+            background: var(--pet-bg);
+            color: var(--text-color);
+            padding: 8px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border: 1px solid var(--sub-text);
+            max-width: 160px;
+            text-align: right;
+            animation: bounceBubble 2s ease-in-out infinite alternate;
+            opacity: 0.95;
+        }
+
+        @keyframes bounceBubble {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-4px); }
+        }
+
+        .pet-avatar {
+            font-size: 38px;
+            filter: drop-shadow(0 3px 6px rgba(0,0,0,0.15));
+            animation: petIdle 1.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes petIdle {
+            0% { transform: translateY(0) rotate(-3deg); }
+            100% { transform: translateY(-6px) rotate(3deg); }
+        }
+
+        .scattered-snow {
+            position: absolute;
+            font-size: 32px;
+            cursor: pointer;
+            z-index: 20;
+            animation: floatSlow 2s ease-in-out infinite alternate;
+            filter: drop-shadow(0 4px 8px rgba(0,119,182,0.2));
+            transition: transform 0.2s, opacity 0.2s;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            padding: 10px;
+        }
+
+        @keyframes floatSlow {
+            0% { transform: translateY(0px) rotate(0deg); }
+            100% { transform: translateY(-8px) rotate(15deg); }
+        }
+
+        .floating-emoji {
+            position: fixed;
+            font-size: 24px;
+            pointer-events: none;
+            z-index: 100;
+            animation: floatEmojiUp 1s ease-out forwards;
+        }
+
+        @keyframes floatEmojiUp {
+            0% { transform: translateY(0) scale(0.5); opacity: 1; }
+            100% { transform: translateY(-80px) scale(1.2); opacity: 0; }
+        }
+
+        body.fade-out {
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+
+        @keyframes shakeBox {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-6px); }
+            40%, 80% { transform: translateX(6px); }
+        }
+        .shake {
+            animation: shakeBox 0.4s ease-in-out;
+        }
+    </style>
+</head>
+<body class="light-theme">
+
+    <div class="welcome-card" id="welcomeCard">
+        <button class="theme-toggle" id="themeToggleBtn" title="เปลี่ยนธีม">🌙</button>
+        <div class="card-tag">WELCOME</div>
+        
+        <div class="main-icon-container" id="interactiveBtn">
+            <span class="main-icon">🫧</span>
+        </div>
+
+        <div class="text" id="statusText">กำลังโหลดเวลา...</div>
+        <div class="power-meter-container" id="meterBox">
+            <div class="power-meter-fill" id="powerFill"></div>
+        </div>
+        <div class="click-instruction" id="subInstruction">คลิกที่ฟองสบู่รัวๆ!</div>
+
+        <!-- ด่าน Captcha ลับ -->
+        <div class="captcha-box" id="captchaBox">
+            <div class="text" id="captchaPrompt" style="margin-bottom: 0;">ด่านตรวจคนเข้าเมือง: พิมพ์คำว่า "อยากดู" เพื่อไปต่อ</div>
+            <input type="text" class="captcha-input" id="captchaInput" placeholder="พิมพ์คำตอบตรงนี้...">
+            <button class="captcha-btn" id="captchaSubmit">ยืนยัน</button>
+        </div>
+
+        <!-- กล่องเลือกคำถามสุดท้าย -->
+        <div class="bio-choice-box" id="bioChoiceBox">
+            <div class="text" id="questionText" style="margin-bottom: 5px;">อยากเห็นไบโอเรารึเปล่าาา กดสิ 🤭</div>
+            <div class="choice-buttons">
+                <button class="choice-btn btn-not" id="btnNot">ไม่อยาก</button>
+                <button class="choice-btn btn-want" id="btnWant">อยาก</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="pet-container" id="petBox" title="จิ้มน้องสิ!">
+        <div class="pet-speech-bubble" id="petSpeech">แง้ม... จิ้มฟองสบู่ยังอะ? 🐾</div>
+        <div class="pet-avatar" id="petAvatar">🐰</div>
+    </div>
+
+    <div class="footer-text">est. 2026  ·  made with ♡</div>
+
+    <script>
+        function createAmbientSnow() {
+            const snow = document.createElement('div');
+            snow.className = 'ambient-snow';
+            snow.innerHTML = Math.random() > 0.5 ? '❄️' : '✨';
+            snow.style.left = Math.random() * 100 + 'vw';
+            snow.style.fontSize = (12 + Math.random() * 16) + 'px';
+            const duration = 4 + Math.random() * 6;
+            snow.style.animationDuration = duration + 's';
+            document.body.appendChild(snow);
+            setTimeout(() => snow.remove(), duration * 1000);
+        }
+        setInterval(createAmbientSnow, 400);
+
+        let audioCtx = null;
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }
+
+        function playPopSound() {
+            try {
+                initAudio();
+                let osc = audioCtx.createOscillator();
+                let gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(400, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(800, audioCtx.currentTime + 0.08);
+                gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.08);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.08);
+            } catch (e) {}
+        }
+
+        const statusText = document.getElementById('statusText');
+        const subInstruction = document.getElementById('subInstruction');
+        const hour = new Date().getHours();
+        let timeGreeting = "จิ้มให้เต็ม...เพื่อไปต่อ";
+        if (hour >= 0 && hour < 5) timeGreeting = "ดึกมากแล้วนะ นอนยังเนี่ย 🌙";
+        else if (hour >= 5 && hour < 12) timeGreeting = "อรุณสวัสดิ์! วันนี้ขอให้สดใสนะ ☀️";
+        else if (hour >= 12 && hour < 17) timeGreeting = "ยามบ่ายแล้ว สู้ๆ นะ! ✨";
+        else if (hour >= 17 && hour < 21) timeGreeting = "ค่ำแล้ว พักผ่อนกัน 🌆";
+        else timeGreeting = "ดึกแล้วยังไม่นอนอีกนะเจ้ามนุษย์ 🌙";
+        statusText.innerText = timeGreeting;
+
+        const themeToggleBtn = document.getElementById('themeToggleBtn');
+        const bodyTag = document.body;
+        themeToggleBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            if (bodyTag.classList.contains('light-theme')) {
+                bodyTag.classList.remove('light-theme');
+                bodyTag.classList.add('dark-theme');
+                themeToggleBtn.innerText = '☀️';
+            } else {
+                bodyTag.classList.remove('dark-theme');
+                bodyTag.classList.add('light-theme');
+                themeToggleBtn.innerText = '🌙';
+            }
+        });
+
+        const petBox = document.getElementById('petBox');
+        const petSpeech = document.getElementById('petSpeech');
+        const petAvatar = document.getElementById('petAvatar');
+        const petLines = [
+            "สวัสดีเจ้ามนุษย์! 🐾",
+            "Faber est quisque fortunae suae ✨",
+            "อย่าลืมกดฟองสบู่ข้างบนน้า 🫧",
+            "ระวังตอบ Captcha ผิดนะ ฮ่าๆๆ 😼",
+            "แอบขี้เกียจอยู่รึเปล่าเนี่ย 🤭"
+        ];
+
+        petBox.addEventListener('click', function() {
+            let randomLine = petLines[Math.floor(Math.random() * petLines.length)];
+            petSpeech.innerText = randomLine;
+            petAvatar.style.transform = 'scale(1.3) rotate(-15deg)';
+            setTimeout(() => {
+                petAvatar.style.transform = 'scale(1) rotate(0deg)';
+            }, 200);
+        });
+
+        document.addEventListener('mousemove', function(e) {
+            const rect = petBox.getBoundingClientRect();
+            const dx = e.clientX - (rect.left + rect.width / 2);
+            const dy = e.clientY - (rect.top + rect.height / 2);
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 80) {
+                const rx = (Math.random() - 0.5) * 120;
+                const ry = (Math.random() - 0.5) * 60;
+                petBox.style.transform = `translate(${rx}px, ${ry}px)`;
+                petSpeech.innerText = 'อุ๊y! เกือบโดนจับแล้ว 🏃‍♂️';
+            }
+        });
+
+        const interactiveBtn = document.getElementById('interactiveBtn');
+        const powerFill = document.getElementById('powerFill');
+        const welcomeCard = document.getElementById('welcomeCard');
+        const meterBox = document.getElementById('meterBox');
+        const captchaBox = document.getElementById('captchaBox');
+        const captchaInput = document.getElementById('captchaInput');
+        const captchaSubmit = document.getElementById('captchaSubmit');
+        const bioChoiceBox = document.getElementById('bioChoiceBox');
+        const btnNot = document.getElementById('btnNot');
+        const btnWant = document.getElementById('btnWant');
+
+        let currentClick = 0;
+        const maxPower = 10; 
+        let phase = 1; 
+        let snowCollected = 0;
+
+        interactiveBtn.addEventListener('click', function(e) {
+            if (phase !== 1) return; 
+
+            playPopSound();
+            interactiveBtn.classList.add('active');
+            setTimeout(() => interactiveBtn.classList.remove('active'), 100);
+
+            currentClick++;
+            let fillProgress = (currentClick / maxPower) * 100;
+            powerFill.style.width = fillProgress + '%';
+            statusText.innerText = `สะสมพลัง (${currentClick}/10)`;
+
+            spawnFloatingEmoji(e.clientX || window.innerWidth/2, e.clientY || window.innerHeight/2);
+
+            if (currentClick >= maxPower) {
+                phase = 2;
+                interactiveBtn.style.display = 'none';
+                statusText.innerText = 'เอ๊ะ! มีเกล็ดหิมะหล่นมา 3 ดวง 🧊';
+                subInstruction.innerText = 'จิ้มเก็บหิมะรอบๆ หน้าจอให้ครบสิ!';
+                petSpeech.innerText = 'หิมะตกแล้ว! ตามเก็บเร้ว ❄️';
+                spawnSnowflakes();
+            }
+        });
+
+        function spawnFloatingEmoji(x, y) {
+            const emojis = ['✨', '💥', '🫧', '💖', '⭐', '🎈'];
+            let em = document.createElement('div');
+            em.className = 'floating-emoji';
+            em.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+            em.style.left = (x - 12) + 'px';
+            em.style.top = (y - 12) + 'px';
+            document.body.appendChild(em);
+            setTimeout(() => em.remove(), 1000);
+        }
+
+        function spawnSnowflakes() {
+            const coords = [
+                { x: '15vw', y: '25vh' },
+                { x: '75vw', y: '68vh' },
+                { x: '78vw', y: '20vh' }
+            ];
+
+            coords.forEach((pos) => {
+                let snow = document.createElement('div');
+                snow.className = 'scattered-snow';
+                snow.innerHTML = '❄️';
+                snow.style.left = pos.x;
+                snow.style.top = pos.y;
+
+                snow.addEventListener('click', function() {
+                    playPopSound();
+                    snow.style.transform = 'scale(0) rotate(360deg)';
+                    snow.style.opacity = '0';
+                    setTimeout(() => snow.remove(), 300);
+                    snowCollected++;
+                    
+                    if (snowCollected >= 3) {
+                        phase = 3;
+                        meterBox.style.display = 'none';
+                        subInstruction.style.display = 'none';
+                        statusText.innerText = 'ผ่านด่านหิมะแล้ว! 🎉';
+                        captchaBox.
