@@ -70,7 +70,7 @@
         .welcome-card {
             position: relative;
             background: var(--card-bg);
-            padding: 45px 50px;
+            padding: 50px 65px;
             border-radius: 30px;
             text-align: center;
             user-select: none;
@@ -81,7 +81,7 @@
                               var(--border-gradient);
             background-origin: border-box;
             background-clip: padding-box, border-box;
-            width: 350px;
+            width: 340px;
         }
 
         .card-tag {
@@ -117,9 +117,9 @@
         }
 
         .main-icon {
-            font-size: 70px;
+            font-size: 80px;
             display: inline-block;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             filter: drop-shadow(0 5px 10px rgba(0,119,182,0.15));
             transition: transform 0.1s ease;
             cursor: pointer;
@@ -135,7 +135,7 @@
             font-size: 13px;
             letter-spacing: 1px;
             color: var(--text-color);
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             font-weight: 500;
             min-height: 20px;
         }
@@ -156,44 +156,6 @@
             background: linear-gradient(90deg, #0077b6, #48cae4);
             border-radius: 7px;
             transition: width 0.2s ease-out;
-        }
-
-        /* Hack Terminal UI สำหรับมินิเกมถอดรหัส */
-        .decrypt-container {
-            display: none;
-            flex-direction: column;
-            gap: 12px;
-            margin-top: 5px;
-        }
-
-        .code-screen {
-            background: var(--meter-bg);
-            padding: 10px;
-            border-radius: 12px;
-            font-family: monospace;
-            font-size: 18px;
-            letter-spacing: 3px;
-            color: var(--text-color);
-            font-weight: bold;
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        .decrypt-btn {
-            background: var(--tag-bg);
-            color: #fff;
-            border: none;
-            padding: 10px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 3px 10px rgba(0,119,182,0.3);
-            transition: transform 0.1s ease;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        .decrypt-btn:active {
-            transform: scale(0.95);
         }
 
         .click-instruction {
@@ -297,6 +259,26 @@
             100% { transform: translateY(-6px) rotate(3deg); }
         }
 
+        .scattered-snow {
+            position: absolute;
+            font-size: 32px;
+            cursor: pointer;
+            z-index: 20;
+            animation: floatSlow 2s ease-in-out infinite alternate;
+            filter: drop-shadow(0 4px 8px rgba(0,119,182,0.2));
+            transition: transform 0.2s, opacity 0.2s;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .scattered-snow:hover {
+            transform: scale(1.3);
+        }
+
+        @keyframes floatSlow {
+            0% { transform: translateY(0px) rotate(0deg); }
+            100% { transform: translateY(-8px) rotate(15deg); }
+        }
+
         .exploding-star {
             position: absolute;
             font-size: 20px;
@@ -320,28 +302,17 @@
 
     <div class="welcome-card" id="welcomeCard">
         <button class="theme-toggle" id="themeToggleBtn" title="เปลี่ยนธีม">🌙</button>
-        <div class="card-tag" id="cardTag">WELCOME</div>
+        <div class="card-tag">WELCOME</div>
         
         <span class="main-icon" id="interactiveBtn">🫧</span>
         <div class="text" id="statusText">กำลังโหลดเวลา...</div>
-        
-        <!-- ด่าน 1: หลอดพลังงานฟองสบู่ -->
-        <div id="meterSection">
-            <div class="power-meter-container" id="meterBox">
-                <div class="power-meter-fill" id="powerFill"></div>
-            </div>
-            <div class="click-instruction" id="subInstruction">คลิกที่ฟองสบู่รัวๆ!</div>
+        <div class="power-meter-container" id="meterBox">
+            <div class="power-meter-fill" id="powerFill"></div>
         </div>
+        <div class="click-instruction" id="subInstruction">คลิกที่ฟองสบู่รัวๆ!</div>
 
-        <!-- ด่าน 2: เครื่องถอดรหัสลับ (เพิ่มเข้ามาใหม่ตามที่เลือก!) -->
-        <div class="decrypt-container" id="decryptBox">
-            <div class="code-screen" id="codeScreen">S - N - O - W</div>
-            <button class="decrypt-btn" id="lockBtn">🔒 ล็อกรหัสตัวอักษร</button>
-        </div>
-
-        <!-- ด่าน 3: เลือกดู Bio พร้อมปุ่มหนี -->
         <div class="bio-choice-box" id="bioChoiceBox">
-            <div class="text" id="questionText" style="margin-bottom: 5px;">แฮกสำเร็จ! อยากดูไบโอเรารึเปล่า 🤭</div>
+            <div class="text" id="questionText" style="margin-bottom: 5px;">อยากเห็นไบโอเรารึเปล่าาา กดสิ 🤭</div>
             <div class="choice-buttons">
                 <button class="choice-btn btn-not" id="btnNot">ไม่อยาก</button>
                 <button class="choice-btn btn-want" id="btnWant">อยาก</button>
@@ -461,20 +432,16 @@
         const interactiveBtn = document.getElementById('interactiveBtn');
         const powerFill = document.getElementById('powerFill');
         const welcomeCard = document.getElementById('welcomeCard');
-        const meterSection = document.getElementById('meterSection');
-        const decryptBox = document.getElementById('decryptBox');
-        const codeScreen = document.getElementById('codeScreen');
-        const lockBtn = document.getElementById('lockBtn');
+        const meterBox = document.getElementById('meterBox');
         const bioChoiceBox = document.getElementById('bioChoiceBox');
         const btnNot = document.getElementById('btnNot');
         const btnWant = document.getElementById('btnWant');
-        const cardTag = document.getElementById('cardTag');
 
         let currentClick = 0;
         const maxPower = 10; 
         let phase = 1; 
+        let snowCollected = 0;
 
-        // ระบบด่านที่ 1: จิ้มฟองสบู่
         interactiveBtn.addEventListener('pointerdown', function(e) {
             e.preventDefault();
             if (phase !== 1) return; 
@@ -491,61 +458,56 @@
 
             if (currentClick >= maxPower) {
                 phase = 2;
-                meterSection.style.display = 'none';
-                interactiveBtn.innerText = '💻';
-                cardTag.innerText = 'SECURITY';
-                statusText.innerText = 'ระบบล็อกอยู่... กรุณาถอดรหัส';
-                decryptBox.style.display = 'flex';
-                petSpeech.innerText = 'หูย มีระบบแฮกด้วย ช่วยกันหน่อยเร้ว! 💻';
-                startDecryptor();
+                interactiveBtn.innerText = '❄️';
+                statusText.innerText = 'เอ๊ะ! มีเกล็ดหิมะหล่นมา 3 ดวง 🧊';
+                subInstruction.innerText = 'จิ้มเก็บหิมะรอบๆ หน้าจอให้ครบสิ!';
+                petSpeech.innerText = 'หิมะตกแล้ว! ตามเก็บเร้ว ❄️';
+                spawnSnowflakes();
             }
         });
 
-        // ระบบด่านที่ 2: เครื่องถอดรหัสลับ (แฮกเกอร์)
-        const targetCodes = ['F A B E R', 'S N O W', 'B I O !'];
-        let currentStage = 0;
-        let isDecoding = false;
-        let decryptInterval = null;
-        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#@$*';
+        function spawnSnowflakes() {
+            const coords = [
+                { x: '18vw', y: '25vh' },
+                { x: '75vw', y: '70vh' },
+                { x: '78vw', y: '22vh' }
+            ];
 
-        function startDecryptor() {
-            isDecoding = true;
-            decryptInterval = setInterval(() => {
-                if (!isDecoding) return;
-                let randomStr = '';
-                for(let i=0; i<5; i++) {
-                    randomStr += chars.charAt(Math.floor(Math.random() * chars.length)) + ' ';
-                }
-                codeScreen.innerText = randomStr.trim();
-            }, 70);
+            coords.forEach((pos) => {
+                let snow = document.createElement('div');
+                snow.className = 'scattered-snow';
+                snow.innerHTML = '❄️';
+                snow.style.left = pos.x;
+                snow.style.top = pos.y;
+
+                snow.addEventListener('pointerdown', function(e) {
+                    e.preventDefault();
+                    snow.remove();
+                    snowCollected++;
+
+                    if (snowCollected === 1) {
+                        statusText.innerText = 'เก่งมาก เหลืออีก 2 ดวง 🤭';
+                        petSpeech.innerText = 'เก่งมาก เก็บอีก 2 ดวง!';
+                    } else if (snowCollected === 2) {
+                        statusText.innerText = 'เกือบครบละ แอบเนียนนะเราอะ ✨';
+                        petSpeech.innerText = 'อีกดวงเดียว สู้ๆ!';
+                    } else if (snowCollected === 3) {
+                        phase = 3;
+                        statusText.style.display = 'none';
+                        subInstruction.style.display = 'none';
+                        meterBox.style.display = 'none';
+                        interactiveBtn.style.display = 'none';
+                        
+                        bioChoiceBox.style.display = 'flex';
+                        petSpeech.innerText = 'เลือกดีๆ นะ จะยอมให้ดูมั้ยน้า 🤭';
+                        explodeStars();
+                    }
+                });
+
+                document.body.appendChild(snow);
+            });
         }
 
-        lockBtn.addEventListener('pointerdown', function(e) {
-            e.preventDefault();
-            if (!isDecoding) return;
-            playPopSound();
-
-            codeScreen.innerText = targetCodes[currentStage];
-            currentStage++;
-
-            if (currentStage < 3) {
-                petSpeech.innerText = `ล็อกสำเร็จ! เหลืออีก ${3 - currentStage} ครั้ง 💻✨`;
-            } else {
-                isDecoding = false;
-                clearInterval(decryptInterval);
-                phase = 3;
-                interactiveBtn.innerText = '🔓';
-                decryptBox.style.display = 'none';
-                statusText.style.display = 'none';
-                cardTag.innerText = 'WELCOME';
-
-                bioChoiceBox.style.display = 'flex';
-                petSpeech.innerText = 'แฮกสำเร็จแล้ว! เลือกเลยจะดูมั้ย 🤭';
-                explodeStars();
-            }
-        });
-
-        // ระบบด่านที่ 3: ปุ่มหนี 5 ครั้ง
         let runAwayCount = 0;
         const maxRunAway = 5;
 
@@ -553,7 +515,7 @@
             e.preventDefault();
             btnNot.style.opacity = '0';
             btnNot.style.transform = 'scale(0.5)';
-            petSpeech.innerText = 'อ้าว ปุ่มไม่อยากหายไปซะแล้ว ฮ่าๆๆ 🤭';
+            petSpeech.innerText = 'อ้าว หายไปซะแล้ว ฮ่าๆๆ 🤭';
             setTimeout(() => {
                 btnNot.style.display = 'none';
             }, 500);
@@ -571,10 +533,10 @@
                 btnWant.style.transform = `translate(${randomX}px, ${randomY}px)`;
                 
                 const teasingLines = [
-                    "แหนะ จับปุ่มไม่ได้หรอก 😜",
-                    "เร็วอีกนิดสิ แฮกเกอร์มือใหม่! 🏃‍♂️",
+                    "แหนะ จับไม่ได้หรอก 😜",
+                    "อี๋ เร็วอีกนิดสิ! 🏃‍♂️",
                     "เกือบโดนแล้วนะ ฮ่าๆๆ ✨",
-                    "ใจเย็นๆ ค่อยๆ เล็ง 🤭",
+                    "ใจเย็นๆ ค่อยๆ จิ้ม 🤭",
                     "รอบสุดท้ายแล้วนะ เตรียมตัว! 🚀"
                 ];
                 petSpeech.innerText = teasingLines[runAwayCount - 1];
@@ -583,4 +545,35 @@
                 bodyTag.classList.add('fade-out');
                 setTimeout(function() {
                     window.location.href = 'bio.html';
-                }, 6
+                }, 600);
+            }
+        });
+
+        function explodeStars() {
+            const cardRect = welcomeCard.getBoundingClientRect();
+            const centerX = cardRect.left + cardRect.width / 2;
+            const centerY = cardRect.top + cardRect.height / 2;
+
+            for (let i = 0; i < 25; i++) {
+                let star = document.createElement('div');
+                star.className = 'exploding-star';
+                star.innerHTML = '✨';
+
+                const angle = Math.random() * Math.PI * 2;
+                const distance = 80 + Math.random() * 100;
+                const tx = Math.cos(angle) * distance;
+                const ty = Math.sin(angle) * distance;
+
+                star.style.setProperty('--tx', `${tx}px`);
+                star.style.setProperty('--ty', `${ty}px`);
+                star.style.left = centerX - 10 + 'px';
+                star.style.top = centerY - 10 + 'px';
+                star.style.animationDuration = (0.6 + Math.random() * 0.4) + 's';
+
+                document.body.appendChild(star);
+                setTimeout(() => star.remove(), 1000);
+            }
+        }
+    </script>
+</body>
+</html>
