@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome 🫧❄️</title>
+    <title>Plern / Zen - Welcome & Desktop Bio 💻✨</title>
     <style>
         * {
             box-sizing: border-box;
@@ -22,7 +22,7 @@
             background: var(--bg-color, #f4f8fb);
             font-family: sans-serif;
             position: relative;
-            padding: 40px 20px;
+            padding: 30px;
             overflow: hidden;
         }
 
@@ -36,6 +36,9 @@
             --border-gradient: linear-gradient(135deg, #0077b6, #48cae4, #90e0ef);
             --card-shadow: 0 10px 30px rgba(0, 119, 182, 0.08);
             --pet-bg: #ffffff;
+            --window-header: #e2eafc;
+            --border-color: #a8dadc;
+            --icon-hover: rgba(0, 119, 182, 0.1);
         }
 
         body.dark-theme {
@@ -48,6 +51,9 @@
             --border-gradient: linear-gradient(135deg, #48cae4, #0077b6, #1d3557);
             --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
             --pet-bg: #16263d;
+            --window-header: #1d2d44;
+            --border-color: #48cae4;
+            --icon-hover: rgba(72, 202, 228, 0.15);
         }
 
         .ambient-snow {
@@ -67,6 +73,19 @@
             100% { transform: translateY(105vh) rotate(360deg); opacity: 0; }
         }
 
+        /* --- ส่วนที่ 1: หน้าต้อนรับ (Welcome View) --- */
+        #welcomeView {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            z-index: 20;
+            transition: opacity 0.5s ease;
+        }
+
         .welcome-card {
             position: relative;
             background: var(--card-bg);
@@ -75,7 +94,6 @@
             text-align: center;
             user-select: none;
             box-shadow: var(--card-shadow);
-            z-index: 10;
             border: 2px solid transparent;
             background-image: linear-gradient(var(--card-bg), var(--card-bg)), 
                               var(--border-gradient);
@@ -165,15 +183,6 @@
             margin-top: 8px;
         }
 
-        .footer-text {
-            margin-top: 25px;
-            font-size: 11px;
-            letter-spacing: 1.5px;
-            color: var(--sub-text);
-            user-select: none;
-            z-index: 10;
-        }
-
         .bio-choice-box {
             display: none;
             flex-direction: column;
@@ -216,6 +225,197 @@
             transition: opacity 0.5s ease, transform 0.5s ease;
         }
 
+        .scattered-snow {
+            position: absolute;
+            font-size: 32px;
+            cursor: pointer;
+            z-index: 25;
+            animation: floatSlow 2s ease-in-out infinite alternate;
+            filter: drop-shadow(0 4px 8px rgba(0,119,182,0.2));
+            transition: transform 0.2s;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        @keyframes floatSlow {
+            0% { transform: translateY(0px) rotate(0deg); }
+            100% { transform: translateY(-8px) rotate(15deg); }
+        }
+
+        .exploding-star {
+            position: absolute;
+            font-size: 20px;
+            animation: burstOut 0.8s ease-out forwards;
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        @keyframes burstOut {
+            0% { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 1; }
+            100% { transform: translate(var(--tx), var(--ty)) scale(0.1) rotate(720deg); opacity: 0; }
+        }
+
+
+        /* --- ส่วนที่ 2: หน้าเดสก์ท็อป Bio (Desktop View) --- */
+        #desktopView {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 30px;
+            z-index: 15;
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+
+        #desktopView.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .desktop-top-controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 100;
+        }
+
+        .control-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .desktop-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+            gap: 25px;
+            max-width: 450px;
+            margin-top: 10px;
+        }
+
+        .desktop-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            padding: 12px 8px;
+            border-radius: 12px;
+            user-select: none;
+            transition: background 0.2s, transform 0.1s;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .desktop-icon:hover {
+            background: var(--icon-hover);
+            transform: translateY(-3px);
+        }
+
+        .desktop-icon:active {
+            transform: scale(0.95);
+        }
+
+        .icon-symbol {
+            font-size: 42px;
+            margin-bottom: 6px;
+            filter: drop-shadow(0 3px 6px rgba(0,0,0,0.1));
+        }
+
+        .icon-label {
+            font-size: 11px;
+            color: var(--text-color);
+            text-align: center;
+            font-weight: bold;
+            word-break: break-all;
+            letter-spacing: 0.5px;
+        }
+
+        /* หน้าต่างป๊อปอัป (Windows Popup) */
+        .window-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            width: 330px;
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 16px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            z-index: 1000;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            opacity: 0;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .window-modal.active {
+            display: flex;
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+        }
+
+        .window-header {
+            background: var(--window-header);
+            padding: 10px 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .window-title {
+            font-size: 12px;
+            font-weight: bold;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .window-close {
+            background: #ff6b6b;
+            border: none;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .window-body {
+            padding: 20px;
+            font-size: 12px;
+            color: var(--text-color);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .window-body strong {
+            color: #0077b6;
+        }
+
+        body.dark-theme .window-body strong {
+            color: #48cae4;
+        }
+
+
+        /* --- ตัวละครน้องกระต่ายมุมจอ --- */
         .pet-container {
             position: fixed;
             bottom: 20px;
@@ -259,74 +459,18 @@
             100% { transform: translateY(-6px) rotate(3deg); }
         }
 
-        .scattered-snow {
-            position: absolute;
-            font-size: 32px;
-            cursor: pointer;
-            z-index: 20;
-            animation: floatSlow 2s ease-in-out infinite alternate;
-            filter: drop-shadow(0 4px 8px rgba(0,119,182,0.2));
-            transition: transform 0.2s, opacity 0.2s;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        .scattered-snow:hover {
-            transform: scale(1.3);
-        }
-
-        @keyframes floatSlow {
-            0% { transform: translateY(0px) rotate(0deg); }
-            100% { transform: translateY(-8px) rotate(15deg); }
-        }
-
-        .exploding-star {
-            position: absolute;
-            font-size: 20px;
-            animation: burstOut 0.8s ease-out forwards;
-            z-index: 5;
-            pointer-events: none;
-        }
-
-        @keyframes burstOut {
-            0% { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 1; }
-            100% { transform: translate(var(--tx), var(--ty)) scale(0.1) rotate(720deg); opacity: 0; }
-        }
-
-        body.fade-out {
-            opacity: 0;
-            transition: opacity 0.6s ease;
+        .footer-text {
+            font-size: 11px;
+            letter-spacing: 1.5px;
+            color: var(--sub-text);
+            user-select: none;
+            z-index: 10;
         }
     </style>
 </head>
 <body class="light-theme">
 
-    <div class="welcome-card" id="welcomeCard">
-        <button class="theme-toggle" id="themeToggleBtn" title="เปลี่ยนธีม">🌙</button>
-        <div class="card-tag">WELCOME</div>
-        
-        <span class="main-icon" id="interactiveBtn">🫧</span>
-        <div class="text" id="statusText">กำลังโหลดเวลา...</div>
-        <div class="power-meter-container" id="meterBox">
-            <div class="power-meter-fill" id="powerFill"></div>
-        </div>
-        <div class="click-instruction" id="subInstruction">คลิกที่ฟองสบู่รัวๆ!</div>
-
-        <div class="bio-choice-box" id="bioChoiceBox">
-            <div class="text" id="questionText" style="margin-bottom: 5px;">อยากเห็นไบโอเรารึเปล่าาา กดสิ 🤭</div>
-            <div class="choice-buttons">
-                <button class="choice-btn btn-not" id="btnNot">ไม่อยาก</button>
-                <button class="choice-btn btn-want" id="btnWant">อยาก</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="pet-container" id="petBox" title="จิ้มน้องสิ!">
-        <div class="pet-speech-bubble" id="petSpeech">แง้ม... จิ้มฟองสบู่ยังอะ? 🐾</div>
-        <div class="pet-avatar" id="petAvatar">🐰</div>
-    </div>
-
-    <div class="footer-text">est. 2026  ·  made with ♡</div>
-
+    <!-- บรรยากาศหิมะตกพื้นหลัง -->
     <script>
         function createAmbientSnow() {
             const snow = document.createElement('div');
@@ -342,7 +486,123 @@
             setTimeout(() => snow.remove(), duration * 1000);
         }
         setInterval(createAmbientSnow, 400);
+    </script>
 
+    <!-- ================= SECTION 1: หน้าต้อนรับ ================= -->
+    <div id="welcomeView">
+        <div class="welcome-card" id="welcomeCard">
+            <button class="theme-toggle" id="themeToggleBtn" title="เปลี่ยนธีม">🌙</button>
+            <div class="card-tag">WELCOME</div>
+            
+            <span class="main-icon" id="interactiveBtn">🫧</span>
+            <div class="text" id="statusText">กำลังโหลดเวลา...</div>
+            <div class="power-meter-container" id="meterBox">
+                <div class="power-meter-fill" id="powerFill"></div>
+            </div>
+            <div class="click-instruction" id="subInstruction">คลิกที่ฟองสบู่รัวๆ!</div>
+
+            <div class="bio-choice-box" id="bioChoiceBox">
+                <div class="text" id="questionText" style="margin-bottom: 5px;">อยากเห็นไบโอเรารึเปล่าาา กดสิ 🤭</div>
+                <div class="choice-buttons">
+                    <button class="choice-btn btn-not" id="btnNot">ไม่อยาก</button>
+                    <button class="choice-btn btn-want" id="btnWant">อยาก</button>
+                </div>
+            </div>
+        </div>
+        <div class="footer-text" style="margin-top: 25px;">est. 2026  ·  made with ♡</div>
+    </div>
+
+
+    <!-- ================= SECTION 2: หน้าเดสก์ท็อป Bio ================= -->
+    <div id="desktopView">
+        <div class="desktop-top-controls">
+            <button class="control-btn" onclick="resetToWelcome()">🏠 หน้าแรก</button>
+        </div>
+
+        <!-- เดสก์ท็อปไอคอน 4 ไฟล์ -->
+        <div class="desktop-grid">
+            <div class="desktop-icon" onclick="openWindow('winSocial')">
+                <span class="icon-symbol">🌐</span>
+                <span class="icon-label">Socials.lnk</span>
+            </div>
+
+            <div class="desktop-icon" onclick="openWindow('winAbout')">
+                <span class="icon-symbol">🐰</span>
+                <span class="icon-label">About_Me.txt</span>
+            </div>
+
+            <div class="desktop-icon" onclick="openWindow('winHobby')">
+                <span class="icon-symbol">🎵</span>
+                <span class="icon-label">Hobbies.mp3</span>
+            </div>
+
+            <div class="desktop-icon" onclick="openWindow('winSecret')">
+                <span class="icon-symbol">🔒</span>
+                <span class="icon-label">Secret.exe</span>
+            </div>
+        </div>
+
+        <div class="footer-text">Plern & Zen's Desktop · est. 2026</div>
+    </div>
+
+
+    <!-- ================= ป๊อปอัปหน้าต่างทั้ง 4 ================= -->
+    <div class="window-modal" id="winSocial">
+        <div class="window-header">
+            <div class="window-title">🌐 Socials.lnk</div>
+            <button class="window-close" onclick="closeWindow('winSocial')"></button>
+        </div>
+        <div class="window-body">
+            <p><strong>TikTok:</strong> @coku22</p>
+            <p><strong>ID Line:</strong> catminda</p>
+            <p><strong>Instagram:</strong> pernname</p>
+            <p><strong>Discord:</strong> nabe_n.b</p>
+        </div>
+    </div>
+
+    <div class="window-modal" id="winAbout">
+        <div class="window-header">
+            <div class="window-title">🐰 About_Me.txt</div>
+            <button class="window-close" onclick="closeWindow('winAbout')"></button>
+        </div>
+        <div class="window-body">
+            <p><strong>ชื่อ/นามปากกา:</strong> เพลิน / เซน</p>
+            <p><strong>วันเกิด:</strong> 14 เมษายน</p>
+            <p><strong>เกี่ยวกับตัวเอง:</strong> ขี้เกียจพอควร แต่เป็นมิตร (มิจ) นะ ทักมาคุยได้ ยินดีตอบม๊ากๆ ✨</p>
+        </div>
+    </div>
+
+    <div class="window-modal" id="winHobby">
+        <div class="window-header">
+            <div class="window-title">🎵 Hobbies.mp3</div>
+            <button class="window-close" onclick="closeWindow('winHobby')"></button>
+        </div>
+        <div class="window-body">
+            <p><strong>เพลง/ศิลปินที่ชอบ:</strong><br>• ลบไม่ได้ช่วยให้ลืม<br>• Just for you / D Gerrard</p>
+            <p><strong>งานอดิเรก:</strong><br>วาดรูป / ฟังเพลง / อ่านมังงะ / อ่านนิยาย / ดูซีรีส์ ☕</p>
+        </div>
+    </div>
+
+    <div class="window-modal" id="winSecret">
+        <div class="window-header">
+            <div class="window-title">🔒 Secret.exe</div>
+            <button class="window-close" onclick="closeWindow('winSecret')"></button>
+        </div>
+        <div class="window-body">
+            <p>ไม่มีอะไรหรอก 55555 แวะมาเปิดดูเฉยๆ สินะ 🤭</p>
+        </div>
+    </div>
+
+
+    <!-- ================= ตัวละครน้องกระต่ายพูดได้ ================= -->
+    <div class="pet-container" id="petBox" title="จิ้มน้องสิ!">
+        <div class="pet-speech-bubble" id="petSpeech">แง้ม... จิ้มฟองสบู่ยังอะ? 🐾</div>
+        <div class="pet-avatar" id="petAvatar">🐰</div>
+    </div>
+
+
+    <!-- ================= จาวาสคริปต์ควบคุมทั้งหมด ================= -->
+    <script>
         let audioCtx = null;
         function initAudio() {
             if (!audioCtx) {
@@ -366,214 +626,4 @@
                 osc.frequency.exponentialRampToValueAtTime(800, audioCtx.currentTime + 0.08);
                 
                 gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.08);
-                
-                osc.start();
-                osc.stop(audioCtx.currentTime + 0.08);
-            } catch (e) {}
-        }
-
-        const statusText = document.getElementById('statusText');
-        const subInstruction = document.getElementById('subInstruction');
-        const hour = new Date().getHours();
-        
-        let timeGreeting = "จิ้มให้เต็ม...เพื่อไปต่อ";
-        if (hour >= 0 && hour < 5) {
-            timeGreeting = "ดึกมากแล้วนะ นอนยังเนี่ย 🌙";
-        } else if (hour >= 5 && hour < 12) {
-            timeGreeting = "อรุณสวัสดิ์! วันนี้ขอให้สดใสนะ ☀️";
-        } else if (hour >= 12 && hour < 17) {
-            timeGreeting = "ยามบ่ายแล้ว สู้ๆ นะ! ✨";
-        } else if (hour >= 17 && hour < 21) {
-            timeGreeting = "ค่ำแล้ว พักผ่อนกัน 🌆";
-        } else {
-            timeGreeting = "ดึกแล้วยังไม่นอนอีกนะเจ้ามนุษย์ 🌙";
-        }
-        statusText.innerText = timeGreeting;
-
-        const themeToggleBtn = document.getElementById('themeToggleBtn');
-        const bodyTag = document.body;
-
-        themeToggleBtn.addEventListener('click', function(e) {
-            e.stopPropagation();
-            if (bodyTag.classList.contains('light-theme')) {
-                bodyTag.classList.remove('light-theme');
-                bodyTag.classList.add('dark-theme');
-                themeToggleBtn.innerText = '☀️';
-            } else {
-                bodyTag.classList.remove('dark-theme');
-                bodyTag.classList.add('light-theme');
-                themeToggleBtn.innerText = '🌙';
-            }
-        });
-
-        const petBox = document.getElementById('petBox');
-        const petSpeech = document.getElementById('petSpeech');
-        const petAvatar = document.getElementById('petAvatar');
-        
-        const petLines = [
-            "สวัสดีเจ้ามนุษย์! 🐾",
-            "Faber est quisque fortunae suae ✨",
-            "อย่าลืมกดฟองสบู่ข้างบนน้า 🫧",
-            "Privet! ทักทายแบบรัสเซีย 😎",
-            "Konnichiwa! ยินดีต้อนรับจ้า 🌸",
-            "แอบขี้เกียจอยู่รึเปล่าเนี่ย 🤭"
-        ];
-
-        petBox.addEventListener('click', function() {
-            let randomLine = petLines[Math.floor(Math.random() * petLines.length)];
-            petSpeech.innerText = randomLine;
-            petAvatar.style.transform = 'scale(1.3) rotate(-15deg)';
-            setTimeout(() => {
-                petAvatar.style.transform = 'scale(1) rotate(0deg)';
-            }, 200);
-        });
-
-        const interactiveBtn = document.getElementById('interactiveBtn');
-        const powerFill = document.getElementById('powerFill');
-        const welcomeCard = document.getElementById('welcomeCard');
-        const meterBox = document.getElementById('meterBox');
-        const bioChoiceBox = document.getElementById('bioChoiceBox');
-        const btnNot = document.getElementById('btnNot');
-        const btnWant = document.getElementById('btnWant');
-
-        let currentClick = 0;
-        const maxPower = 10; 
-        let phase = 1; 
-        let snowCollected = 0;
-
-        interactiveBtn.addEventListener('pointerdown', function(e) {
-            e.preventDefault();
-            if (phase !== 1) return; 
-
-            playPopSound();
-            interactiveBtn.classList.add('active');
-            setTimeout(() => interactiveBtn.classList.remove('active'), 100);
-
-            currentClick++;
-            let fillProgress = (currentClick / maxPower) * 100;
-            powerFill.style.width = fillProgress + '%';
-
-            statusText.innerText = `สะสมพลัง (${currentClick}/10)`;
-
-            if (currentClick >= maxPower) {
-                phase = 2;
-                interactiveBtn.innerText = '❄️';
-                statusText.innerText = 'เอ๊ะ! มีเกล็ดหิมะหล่นมา 3 ดวง 🧊';
-                subInstruction.innerText = 'จิ้มเก็บหิมะรอบๆ หน้าจอให้ครบสิ!';
-                petSpeech.innerText = 'หิมะตกแล้ว! ตามเก็บเร้ว ❄️';
-                spawnSnowflakes();
-            }
-        });
-
-        function spawnSnowflakes() {
-            const coords = [
-                { x: '18vw', y: '25vh' },
-                { x: '75vw', y: '70vh' },
-                { x: '78vw', y: '22vh' }
-            ];
-
-            coords.forEach((pos) => {
-                let snow = document.createElement('div');
-                snow.className = 'scattered-snow';
-                snow.innerHTML = '❄️';
-                snow.style.left = pos.x;
-                snow.style.top = pos.y;
-
-                snow.addEventListener('pointerdown', function(e) {
-                    e.preventDefault();
-                    snow.remove();
-                    snowCollected++;
-
-                    if (snowCollected === 1) {
-                        statusText.innerText = 'เก่งมาก เหลืออีก 2 ดวง 🤭';
-                        petSpeech.innerText = 'เก่งมาก เก็บอีก 2 ดวง!';
-                    } else if (snowCollected === 2) {
-                        statusText.innerText = 'เกือบครบละ แอบเนียนนะเราอะ ✨';
-                        petSpeech.innerText = 'อีกดวงเดียว สู้ๆ!';
-                    } else if (snowCollected === 3) {
-                        phase = 3;
-                        statusText.style.display = 'none';
-                        subInstruction.style.display = 'none';
-                        meterBox.style.display = 'none';
-                        interactiveBtn.style.display = 'none';
-                        
-                        bioChoiceBox.style.display = 'flex';
-                        petSpeech.innerText = 'เลือกดีๆ นะ จะยอมให้ดูมั้ยน้า 🤭';
-                        explodeStars();
-                    }
-                });
-
-                document.body.appendChild(snow);
-            });
-        }
-
-        let runAwayCount = 0;
-        const maxRunAway = 5;
-
-        btnNot.addEventListener('pointerdown', function(e) {
-            e.preventDefault();
-            btnNot.style.opacity = '0';
-            btnNot.style.transform = 'scale(0.5)';
-            petSpeech.innerText = 'อ้าว หายไปซะแล้ว ฮ่าๆๆ 🤭';
-            setTimeout(() => {
-                btnNot.style.display = 'none';
-            }, 500);
-        });
-
-        btnWant.addEventListener('pointerdown', function(e) {
-            e.preventDefault();
-            if (runAwayCount < maxRunAway) {
-                runAwayCount++;
-                playPopSound();
-
-                const randomX = (Math.random() - 0.5) * 160;
-                const randomY = (Math.random() - 0.5) * 50;
-                
-                btnWant.style.transform = `translate(${randomX}px, ${randomY}px)`;
-                
-                const teasingLines = [
-                    "แหนะ จับไม่ได้หรอก 😜",
-                    "อี๋ เร็วอีกนิดสิ! 🏃‍♂️",
-                    "เกือบโดนแล้วนะ ฮ่าๆๆ ✨",
-                    "ใจเย็นๆ ค่อยๆ จิ้ม 🤭",
-                    "รอบสุดท้ายแล้วนะ เตรียมตัว! 🚀"
-                ];
-                petSpeech.innerText = teasingLines[runAwayCount - 1];
-            } else {
-                petSpeech.innerText = 'ยอมแล้ว ไปดูกันเลย! 🚀';
-                bodyTag.classList.add('fade-out');
-                setTimeout(function() {
-                    window.location.href = 'bio.html';
-                }, 600);
-            }
-        });
-
-        function explodeStars() {
-            const cardRect = welcomeCard.getBoundingClientRect();
-            const centerX = cardRect.left + cardRect.width / 2;
-            const centerY = cardRect.top + cardRect.height / 2;
-
-            for (let i = 0; i < 25; i++) {
-                let star = document.createElement('div');
-                star.className = 'exploding-star';
-                star.innerHTML = '✨';
-
-                const angle = Math.random() * Math.PI * 2;
-                const distance = 80 + Math.random() * 100;
-                const tx = Math.cos(angle) * distance;
-                const ty = Math.sin(angle) * distance;
-
-                star.style.setProperty('--tx', `${tx}px`);
-                star.style.setProperty('--ty', `${ty}px`);
-                star.style.left = centerX - 10 + 'px';
-                star.style.top = centerY - 10 + 'px';
-                star.style.animationDuration = (0.6 + Math.random() * 0.4) + 's';
-
-                document.body.appendChild(star);
-                setTimeout(() => star.remove(), 1000);
-            }
-        }
-    </script>
-</body>
-</html>
+                gain.gain.exponentialRampToValueAtT
