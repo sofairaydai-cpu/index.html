@@ -19,11 +19,37 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background: #f4f8fb;
+            background: var(--bg-color, #f4f8fb);
             font-family: sans-serif;
             position: relative;
             padding: 40px 20px;
             overflow: hidden;
+        }
+
+        body.light-theme {
+            --bg-color: #f4f8fb;
+            --card-bg: #ffffff;
+            --text-color: #1d3557;
+            --sub-text: #6c757d;
+            --meter-bg: #e2eafc;
+            --tag-bg: #0077b6;
+            --border-gradient: linear-gradient(135deg, #0077b6, #48cae4, #90e0ef);
+            --card-shadow: 0 10px 30px rgba(0, 119, 182, 0.08);
+            --pet-bg: #ffffff;
+            --input-bg: #f8f9fa;
+        }
+
+        body.dark-theme {
+            --bg-color: #0b131f;
+            --card-bg: #111d2d;
+            --text-color: #e2eafc;
+            --sub-text: #8d99ae;
+            --meter-bg: #1d2d44;
+            --tag-bg: #48cae4;
+            --border-gradient: linear-gradient(135deg, #48cae4, #0077b6, #1d3557);
+            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            --pet-bg: #16263d;
+            --input-bg: #1a2a42;
         }
 
         .ambient-snow {
@@ -45,14 +71,18 @@
 
         .welcome-card {
             position: relative;
-            background: #ffffff;
+            background: var(--card-bg);
             padding: 50px 30px;
             border-radius: 30px;
             text-align: center;
             user-select: none;
-            box-shadow: 0 10px 30px rgba(0, 119, 182, 0.08);
+            box-shadow: var(--card-shadow);
             z-index: 10;
-            border: 2px solid #0077b6;
+            border: 2px solid transparent;
+            background-image: linear-gradient(var(--card-bg), var(--card-bg)), 
+                              var(--border-gradient);
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
             width: 320px;
         }
 
@@ -60,50 +90,75 @@
             position: absolute;
             top: -12px;
             right: 20px;
-            background: #0077b6;
+            background: var(--tag-bg);
             color: #fff;
             font-size: 10px;
             padding: 3px 10px;
             border-radius: 20px;
             letter-spacing: 1px;
             font-weight: bold;
+            box-shadow: 0 3px 10px rgba(0, 119, 182, 0.3);
         }
 
-        .main-btn {
-            background: #e2eafc;
-            border: none;
-            font-size: 65px;
-            padding: 20px;
+        .theme-toggle {
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--sub-text);
+            color: var(--text-color);
+            font-size: 12px;
+            width: 26px;
+            height: 26px;
             border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .main-icon-container {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+            border-radius: 20px;
             cursor: pointer;
             margin-bottom: 15px;
-            outline: none;
             -webkit-tap-highlight-color: transparent;
             touch-action: manipulation;
-            box-shadow: 0 5px 15px rgba(0,119,182,0.15);
-            transition: transform 0.1s ease;
         }
 
-        .main-btn:active {
-            transform: scale(0.9);
+        .main-icon {
+            font-size: 70px;
+            display: inline-block;
+            filter: drop-shadow(0 5px 10px rgba(0,119,182,0.15));
+            transition: transform 0.1s ease;
+            pointer-events: none;
+        }
+        
+        .main-icon-container.active .main-icon {
+            transform: scale(1.15);
         }
 
         .text {
             font-size: 13px;
             letter-spacing: 1px;
-            color: #1d3557;
+            color: var(--text-color);
             margin-bottom: 20px;
-            font-weight: 600;
+            font-weight: 500;
             min-height: 20px;
         }
 
         .power-meter-container {
             width: 100%;
             height: 14px;
-            background: #e2eafc;
+            background: var(--meter-bg);
             border-radius: 7px;
             overflow: hidden;
             margin-top: 10px;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
         }
 
         .power-meter-fill {
@@ -116,7 +171,7 @@
 
         .click-instruction {
             font-size: 11px;
-            color: #6c757d;
+            color: var(--sub-text);
             letter-spacing: 1px;
             margin-top: 8px;
         }
@@ -125,7 +180,8 @@
             margin-top: 25px;
             font-size: 11px;
             letter-spacing: 1.5px;
-            color: #6c757d;
+            color: var(--sub-text);
+            user-select: none;
             z-index: 10;
         }
 
@@ -141,12 +197,13 @@
             width: 100%;
             padding: 10px 14px;
             border-radius: 12px;
-            border: 1px solid #6c757d;
-            background: #f8f9fa;
-            color: #1d3557;
+            border: 1px solid var(--sub-text);
+            background: var(--input-bg);
+            color: var(--text-color);
             font-size: 12px;
             text-align: center;
             outline: none;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
         }
 
         .captcha-btn {
@@ -158,6 +215,7 @@
             font-weight: bold;
             cursor: pointer;
             border: none;
+            box-shadow: 0 3px 10px rgba(0,119,182,0.2);
         }
 
         .bio-choice-box {
@@ -185,18 +243,20 @@
             cursor: pointer;
             border: none;
             box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             -webkit-tap-highlight-color: transparent;
         }
 
         .btn-want {
             background: #0077b6;
             color: #fff;
+            position: relative;
             z-index: 20;
         }
 
         .btn-not {
-            background: #e2eafc;
-            color: #6c757d;
+            background: var(--meter-bg);
+            color: var(--sub-text);
         }
 
         .pet-container {
@@ -209,22 +269,26 @@
             z-index: 50;
             cursor: pointer;
             user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            transition: all 0.5s ease;
         }
 
         .pet-speech-bubble {
-            background: #ffffff;
-            color: #1d3557;
+            background: var(--pet-bg);
+            color: var(--text-color);
             padding: 8px 12px;
             border-radius: 12px;
             font-size: 11px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            border: 1px solid #6c757d;
+            border: 1px solid var(--sub-text);
             max-width: 160px;
             text-align: right;
+            opacity: 0.95;
         }
 
         .pet-avatar {
             font-size: 38px;
+            filter: drop-shadow(0 3px 6px rgba(0,0,0,0.15));
         }
 
         .scattered-snow {
@@ -232,26 +296,57 @@
             font-size: 32px;
             cursor: pointer;
             z-index: 20;
+            filter: drop-shadow(0 4px 8px rgba(0,119,182,0.2));
             -webkit-tap-highlight-color: transparent;
             touch-action: manipulation;
             padding: 15px;
         }
+
+        .floating-emoji {
+            position: fixed;
+            font-size: 24px;
+            pointer-events: none;
+            z-index: 100;
+            animation: floatEmojiUp 0.8s ease-out forwards;
+        }
+
+        @keyframes floatEmojiUp {
+            0% { transform: translateY(0) scale(0.5); opacity: 1; }
+            100% { transform: translateY(-70px) scale(1.2); opacity: 0; }
+        }
+
+        body.fade-out {
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+
+        @keyframes shakeBox {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-6px); }
+            40%, 80% { transform: translateX(6px); }
+        }
+        .shake {
+            animation: shakeBox 0.4s ease-in-out;
+        }
     </style>
 </head>
-<body>
+<body class="light-theme">
 
     <div class="welcome-card" id="welcomeCard">
+        <button class="theme-toggle" id="themeToggleBtn" title="เปลี่ยนธีม">🌙</button>
         <div class="card-tag">WELCOME</div>
         
-        <button class="main-btn" id="interactiveBtn">🫧</button>
+        <div class="main-icon-container" id="interactiveBtn">
+            <span class="main-icon">🫧</span>
+        </div>
 
-        <div class="text" id="statusText">จิ้มฟองสบู่ให้เต็ม 10 ครั้ง!</div>
+        <div class="text" id="statusText">จิ้มให้เต็ม...เพื่อไปต่อ</div>
         <div class="power-meter-container" id="meterBox">
             <div class="power-meter-fill" id="powerFill"></div>
         </div>
         <div class="click-instruction" id="subInstruction">คลิกที่ฟองสบู่รัวๆ!</div>
 
-        <!-- ด่าน Captcha -->
+        <!-- ด่าน Captcha ลับ -->
         <div class="captcha-box" id="captchaBox">
             <div class="text" style="margin-bottom: 0;">พิมพ์คำว่า "อยากดู" เพื่อไปต่อ</div>
             <input type="text" class="captcha-input" id="captchaInput" placeholder="พิมพ์คำตอบตรงนี้...">
@@ -268,9 +363,9 @@
         </div>
     </div>
 
-    <div class="pet-container" id="petBox">
+    <div class="pet-container" id="petBox" title="จิ้มน้องสิ!">
         <div class="pet-speech-bubble" id="petSpeech">แง้ม... จิ้มฟองสบู่ยังอะ? 🐾</div>
-        <div class="pet-avatar">🐰</div>
+        <div class="pet-avatar" id="petAvatar">🐰</div>
     </div>
 
     <div class="footer-text">est. 2026  ·  made with ♡</div>
@@ -290,10 +385,69 @@
         }
         setInterval(createAmbientSnow, 500);
 
+        // เสียงป๊อบสั้นๆ (รองรับเบราว์เซอร์มือถือ)
+        let audioCtx = null;
+        function playPopSound() {
+            try {
+                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+                let osc = audioCtx.createOscillator();
+                let gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(400, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(800, audioCtx.currentTime + 0.08);
+                gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.08);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.08);
+            } catch (e) {}
+        }
+
+        // จัดการเวลาทักทายอัตโนมัติ
         const statusText = document.getElementById('statusText');
         const subInstruction = document.getElementById('subInstruction');
+        const hour = new Date().getHours();
+        if (hour >= 0 && hour < 5) statusText.innerText = "ดึกมากแล้วนะ นอนยังเนี่ย 🌙";
+        else if (hour >= 5 && hour < 12) statusText.innerText = "อรุณสวัสดิ์! สดใสตลอดวันนะ ☀️";
+        else if (hour >= 12 && hour < 17) statusText.innerText = "ยามบ่ายแล้ว สู้ๆ นะ! ✨";
+        else if (hour >= 17 && hour < 21) statusText.innerText = "ค่ำแล้ว พักผ่อนกัน 🌆";
+        else statusText.innerText = "ดึกแล้วยังไม่นอนอีกนะ 🌙";
+
+        // สลับธีมมืด/สว่าง
+        const themeToggleBtn = document.getElementById('themeToggleBtn');
+        const bodyTag = document.body;
+        themeToggleBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            if (bodyTag.classList.contains('light-theme')) {
+                bodyTag.classList.remove('light-theme');
+                bodyTag.classList.add('dark-theme');
+                themeToggleBtn.innerText = '☀️';
+            } else {
+                bodyTag.classList.remove('dark-theme');
+                bodyTag.classList.add('light-theme');
+                themeToggleBtn.innerText = '🌙';
+            }
+        });
+
+        // น้องกระต่ายพูดคุย
+        const petBox = document.getElementById('petBox');
+        const petSpeech = document.getElementById('petSpeech');
+        const petLines = [
+            "สวัสดีเจ้ามนุษย์! 🐾",
+            "Faber est quisque fortunae suae ✨",
+            "อย่าลืมกดฟองสบู่ข้างบนน้า 🫧",
+            "ระวังตอบ Captcha ผิดนะ ฮ่าๆๆ 😼"
+        ];
+        petBox.addEventListener('click', function() {
+            petSpeech.innerText = petLines[Math.floor(Math.random() * petLines.length)];
+        });
+
+        // ตัวแปรระบบคลิก
         const interactiveBtn = document.getElementById('interactiveBtn');
         const powerFill = document.getElementById('powerFill');
+        const welcomeCard = document.getElementById('welcomeCard');
         const meterBox = document.getElementById('meterBox');
         const captchaBox = document.getElementById('captchaBox');
         const captchaInput = document.getElementById('captchaInput');
@@ -301,28 +455,35 @@
         const bioChoiceBox = document.getElementById('bioChoiceBox');
         const btnNot = document.getElementById('btnNot');
         const btnWant = document.getElementById('btnWant');
-        const petSpeech = document.getElementById('petSpeech');
 
         let currentClick = 0;
         const maxPower = 10; 
         let phase = 1; 
         let snowCollected = 0;
 
-        // รองรับการคลิกและทัชสกรีนมือถือเต็มรูปแบบ
+        // ฟังก์ชันรองรับทั้งการคลิกและกดทัชสกรีนบนมือถือ
         function handleBubbleClick(e) {
             if (phase !== 1) return;
             e.preventDefault();
+
+            playPopSound();
+            interactiveBtn.classList.add('active');
+            setTimeout(() => interactiveBtn.classList.remove('active'), 100);
 
             currentClick++;
             let fillProgress = (currentClick / maxPower) * 100;
             powerFill.style.width = fillProgress + '%';
             statusText.innerText = `สะสมพลัง (${currentClick}/10)`;
 
+            let clientX = e.clientX || (e.touches && e.touches[0].clientX) || (window.innerWidth / 2);
+            let clientY = e.clientY || (e.touches && e.touches[0].clientY) || (window.innerHeight / 2);
+            spawnFloatingEmoji(clientX, clientY);
+
             if (currentClick >= maxPower) {
                 phase = 2;
                 interactiveBtn.style.display = 'none';
-                statusText.innerText = 'เก็บหิมะ 3 ดวงรอบหน้าจอ! 🧊';
-                subInstruction.innerText = 'จิ้มเก็บหิมะให้ครบสิ!';
+                statusText.innerText = 'หิมะหล่นมา 3 ดวงแล้ว! 🧊';
+                subInstruction.innerText = 'จิ้มเก็บหิมะรอบๆ หน้าจอให้ครบสิ!';
                 petSpeech.innerText = 'หิมะตกแล้ว! ตามเก็บเร้ว ❄️';
                 spawnSnowflakes();
             }
@@ -331,11 +492,22 @@
         interactiveBtn.addEventListener('click', handleBubbleClick);
         interactiveBtn.addEventListener('touchend', handleBubbleClick);
 
+        function spawnFloatingEmoji(x, y) {
+            const emojis = ['✨', '💥', '🫧', '💖', '⭐'];
+            let em = document.createElement('div');
+            em.className = 'floating-emoji';
+            em.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+            em.style.left = (x - 12) + 'px';
+            em.style.top = (y - 12) + 'px';
+            document.body.appendChild(em);
+            setTimeout(() => em.remove(), 800);
+        }
+
         function spawnSnowflakes() {
             const coords = [
-                { x: '15vw', y: '20vh' },
-                { x: '70vw', y: '75vh' },
-                { x: '75vw', y: '15vh' }
+                { x: '18vw', y: '22vh' },
+                { x: '72vw', y: '70vh' },
+                { x: '75vw', y: '18vh' }
             ];
 
             coords.forEach((pos) => {
@@ -347,7 +519,10 @@
 
                 function collectSnow(e) {
                     e.preventDefault();
-                    snow.remove();
+                    playPopSound();
+                    snow.style.transform = 'scale(0) rotate(360deg)';
+                    snow.style.opacity = '0';
+                    setTimeout(() => snow.remove(), 300);
                     snowCollected++;
                     
                     if (snowCollected >= 3) {
@@ -369,12 +544,16 @@
         captchaSubmit.addEventListener('click', function() {
             let val = captchaInput.value.trim();
             if (val === 'อยากดู') {
+                playPopSound();
                 captchaBox.style.display = 'none';
                 statusText.innerText = 'ยินดีต้อนรับสู่โลกของฉัน ✨';
                 bioChoiceBox.style.display = 'flex';
                 petSpeech.innerText = 'เย่! ไปหน้าไบโอกันเถอะ 🚀';
             } else {
+                welcomeCard.classList.add('shake');
+                setTimeout(() => welcomeCard.classList.remove('shake'), 400);
                 statusText.innerText = 'พิมพ์คำว่า "อยากดู" ให้ถูกนะ! 💢';
+                petSpeech.innerText = 'ลองใหม่อีกรอบสิ 🤭';
             }
         });
 
@@ -389,16 +568,4 @@
             let rx = (Math.random() - 0.5) * 120;
             let ry = (Math.random() - 0.5) * 50;
             btnNot.style.transform = `translate(${rx}px, ${ry}px)`;
-            petSpeech.innerText = 'หนีเก่งเหรอ ปุ่มนี้กดไม่ได้หรอก ฮ่าๆๆ 🏃‍♂️';
-        }
-
-        btnWant.addEventListener('click', function() {
-            statusText.innerText = 'กำลังพุ่งตัวไปหน้า Bio... 🚀';
-            petSpeech.innerText = 'เจอกันหน้าหลักนะ บั๊บบาย! 👋';
-            setTimeout(() => {
-                window.location.href = 'bio.html';
-            }, 600);
-        });
-    </script>
-</body>
-</html>
+            petSpeech.innerText = 'หนีเก่งเหรอ ปุ่มน
