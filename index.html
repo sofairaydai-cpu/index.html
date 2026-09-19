@@ -9,6 +9,7 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            transition: background 0.3s ease, color 0.3s ease;
         }
 
         body {
@@ -20,137 +21,383 @@
             align-items: center;
             background: #f4f8fb;
             font-family: sans-serif;
-            padding: 20px;
+            position: relative;
+            padding: 40px 20px;
+            overflow: hidden;
         }
 
-        .card {
+        .ambient-snow {
+            position: fixed;
+            top: -20px;
+            color: rgba(72, 202, 228, 0.6);
+            user-select: none;
+            pointer-events: none;
+            z-index: 1;
+            animation: fallDown linear infinite;
+        }
+
+        @keyframes fallDown {
+            0% { transform: translateY(-20px) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% { transform: translateY(105vh) rotate(360deg); opacity: 0; }
+        }
+
+        .welcome-card {
+            position: relative;
             background: #ffffff;
-            padding: 40px 30px;
-            border-radius: 24px;
+            padding: 50px 30px;
+            border-radius: 30px;
             text-align: center;
-            box-shadow: 0 10px 25px rgba(0, 119, 182, 0.1);
-            width: 100%;
-            max-width: 320px;
+            user-select: none;
+            box-shadow: 0 10px 30px rgba(0, 119, 182, 0.08);
+            z-index: 10;
             border: 2px solid #0077b6;
+            width: 320px;
         }
 
-        .bubble-btn {
+        .card-tag {
+            position: absolute;
+            top: -12px;
+            right: 20px;
+            background: #0077b6;
+            color: #fff;
+            font-size: 10px;
+            padding: 3px 10px;
+            border-radius: 20px;
+            letter-spacing: 1px;
+            font-weight: bold;
+        }
+
+        .main-btn {
             background: #e2eafc;
             border: none;
-            font-size: 60px;
+            font-size: 65px;
             padding: 20px;
             border-radius: 50%;
             cursor: pointer;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             outline: none;
             -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            box-shadow: 0 5px 15px rgba(0,119,182,0.15);
             transition: transform 0.1s ease;
         }
 
-        .bubble-btn:active {
+        .main-btn:active {
             transform: scale(0.9);
         }
 
         .text {
-            font-size: 15px;
+            font-size: 13px;
+            letter-spacing: 1px;
             color: #1d3557;
-            margin-bottom: 15px;
-            font-weight: bold;
+            margin-bottom: 20px;
+            font-weight: 600;
+            min-height: 20px;
         }
 
-        .bar-container {
+        .power-meter-container {
             width: 100%;
-            height: 16px;
+            height: 14px;
             background: #e2eafc;
-            border-radius: 8px;
+            border-radius: 7px;
             overflow: hidden;
-            margin-bottom: 10px;
+            margin-top: 10px;
         }
 
-        .bar-fill {
+        .power-meter-fill {
             height: 100%;
             width: 0%;
             background: linear-gradient(90deg, #0077b6, #48cae4);
-            border-radius: 8px;
-            transition: width 0.1s ease-out;
+            border-radius: 7px;
+            transition: width 0.15s ease-out;
         }
 
-        .sub-text {
+        .click-instruction {
+            font-size: 11px;
+            color: #6c757d;
+            letter-spacing: 1px;
+            margin-top: 8px;
+        }
+
+        .footer-text {
+            margin-top: 25px;
+            font-size: 11px;
+            letter-spacing: 1.5px;
+            color: #6c757d;
+            z-index: 10;
+        }
+
+        .captcha-box {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            margin-top: 5px;
+        }
+
+        .captcha-input {
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: 12px;
+            border: 1px solid #6c757d;
+            background: #f8f9fa;
+            color: #1d3557;
             font-size: 12px;
+            text-align: center;
+            outline: none;
+        }
+
+        .captcha-btn {
+            background: #0077b6;
+            color: #fff;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+        }
+
+        .bio-choice-box {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            margin-top: 5px;
+        }
+
+        .choice-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            position: relative;
+            width: 100%;
+            min-height: 40px;
+        }
+
+        .choice-btn {
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .btn-want {
+            background: #0077b6;
+            color: #fff;
+            z-index: 20;
+        }
+
+        .btn-not {
+            background: #e2eafc;
             color: #6c757d;
         }
 
-        .success-box {
-            display: none;
-            margin-top: 15px;
+        .pet-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            align-items: flex-end;
+            gap: 8px;
+            z-index: 50;
+            cursor: pointer;
+            user-select: none;
         }
 
-        .next-btn {
-            background: #0077b6;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: bold;
+        .pet-speech-bubble {
+            background: #ffffff;
+            color: #1d3557;
+            padding: 8px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border: 1px solid #6c757d;
+            max-width: 160px;
+            text-align: right;
+        }
+
+        .pet-avatar {
+            font-size: 38px;
+        }
+
+        .scattered-snow {
+            position: absolute;
+            font-size: 32px;
             cursor: pointer;
+            z-index: 20;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            padding: 15px;
         }
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <button class="bubble-btn" id="clickBtn">🫧</button>
-        <div class="text" id="statusText">จิ้มฟองสบู่ให้ครบ 5 ครั้ง!</div>
+    <div class="welcome-card" id="welcomeCard">
+        <div class="card-tag">WELCOME</div>
         
-        <div class="bar-container" id="barBox">
-            <div class="bar-fill" id="barFill"></div>
-        </div>
-        <div class="sub-text" id="subText">0 / 5 ครั้ง</div>
+        <button class="main-btn" id="interactiveBtn">🫧</button>
 
-        <div class="success-box" id="successBox">
-            <button class="next-btn" id="nextBtn">ไปหน้าถัดไป 🚀</button>
+        <div class="text" id="statusText">จิ้มฟองสบู่ให้เต็ม 10 ครั้ง!</div>
+        <div class="power-meter-container" id="meterBox">
+            <div class="power-meter-fill" id="powerFill"></div>
+        </div>
+        <div class="click-instruction" id="subInstruction">คลิกที่ฟองสบู่รัวๆ!</div>
+
+        <!-- ด่าน Captcha -->
+        <div class="captcha-box" id="captchaBox">
+            <div class="text" style="margin-bottom: 0;">พิมพ์คำว่า "อยากดู" เพื่อไปต่อ</div>
+            <input type="text" class="captcha-input" id="captchaInput" placeholder="พิมพ์คำตอบตรงนี้...">
+            <button class="captcha-btn" id="captchaSubmit">ยืนยัน</button>
+        </div>
+
+        <!-- กล่องเลือกคำถามสุดท้าย -->
+        <div class="bio-choice-box" id="bioChoiceBox">
+            <div class="text" style="margin-bottom: 5px;">อยากเห็นไบโอเรารึเปล่าาา 🤭</div>
+            <div class="choice-buttons">
+                <button class="choice-btn btn-not" id="btnNot">ไม่อยาก</button>
+                <button class="choice-btn btn-want" id="btnWant">อยาก</button>
+            </div>
         </div>
     </div>
 
+    <div class="pet-container" id="petBox">
+        <div class="pet-speech-bubble" id="petSpeech">แง้ม... จิ้มฟองสบู่ยังอะ? 🐾</div>
+        <div class="pet-avatar">🐰</div>
+    </div>
+
+    <div class="footer-text">est. 2026  ·  made with ♡</div>
+
     <script>
-        const clickBtn = document.getElementById('clickBtn');
+        // หิมะตกพื้นหลัง
+        function createAmbientSnow() {
+            const snow = document.createElement('div');
+            snow.className = 'ambient-snow';
+            snow.innerHTML = Math.random() > 0.5 ? '❄️' : '✨';
+            snow.style.left = Math.random() * 100 + 'vw';
+            snow.style.fontSize = (12 + Math.random() * 16) + 'px';
+            const duration = 4 + Math.random() * 6;
+            snow.style.animationDuration = duration + 's';
+            document.body.appendChild(snow);
+            setTimeout(() => snow.remove(), duration * 1000);
+        }
+        setInterval(createAmbientSnow, 500);
+
         const statusText = document.getElementById('statusText');
-        const barFill = document.getElementById('barFill');
-        const subText = document.getElementById('subText');
-        const barBox = document.getElementById('barBox');
-        const successBox = document.getElementById('successBox');
-        const nextBtn = document.getElementById('nextBtn');
+        const subInstruction = document.getElementById('subInstruction');
+        const interactiveBtn = document.getElementById('interactiveBtn');
+        const powerFill = document.getElementById('powerFill');
+        const meterBox = document.getElementById('meterBox');
+        const captchaBox = document.getElementById('captchaBox');
+        const captchaInput = document.getElementById('captchaInput');
+        const captchaSubmit = document.getElementById('captchaSubmit');
+        const bioChoiceBox = document.getElementById('bioChoiceBox');
+        const btnNot = document.getElementById('btnNot');
+        const btnWant = document.getElementById('btnWant');
+        const petSpeech = document.getElementById('petSpeech');
 
-        let count = 0;
-        const target = 5;
+        let currentClick = 0;
+        const maxPower = 10; 
+        let phase = 1; 
+        let snowCollected = 0;
 
-        // รองรับทั้งคลิกและทัชสกรีนมือถือแบบตรงไปตรงมา
-        function triggerAction(e) {
+        // รองรับการคลิกและทัชสกรีนมือถือเต็มรูปแบบ
+        function handleBubbleClick(e) {
+            if (phase !== 1) return;
             e.preventDefault();
-            if (count >= target) return;
 
-            count++;
-            let percent = (count / target) * 100;
-            barFill.style.width = percent + '%';
-            subText.innerText = `${count} / ${target} ครั้ง`;
-            statusText.innerText = `เก่งมาก! อีกนิดเดียว`;
+            currentClick++;
+            let fillProgress = (currentClick / maxPower) * 100;
+            powerFill.style.width = fillProgress + '%';
+            statusText.innerText = `สะสมพลัง (${currentClick}/10)`;
 
-            if (count >= target) {
-                statusText.innerText = 'สำเร็จแล้ว! 🎉';
-                barBox.style.display = 'none';
-                subText.style.display = 'none';
-                clickBtn.style.display = 'none';
-                successBox.style.display = 'block';
+            if (currentClick >= maxPower) {
+                phase = 2;
+                interactiveBtn.style.display = 'none';
+                statusText.innerText = 'เก็บหิมะ 3 ดวงรอบหน้าจอ! 🧊';
+                subInstruction.innerText = 'จิ้มเก็บหิมะให้ครบสิ!';
+                petSpeech.innerText = 'หิมะตกแล้ว! ตามเก็บเร้ว ❄️';
+                spawnSnowflakes();
             }
         }
 
-        clickBtn.addEventListener('click', triggerAction);
-        clickBtn.addEventListener('touchend', triggerAction);
+        interactiveBtn.addEventListener('click', handleBubbleClick);
+        interactiveBtn.addEventListener('touchend', handleBubbleClick);
 
-        nextBtn.addEventListener('click', function() {
-            alert(' เย้! กดทะลุผ่านแล้ว ขั้นต่อไปใส่ลิงก์หน้า Bio จริงได้เลย!');
-            // window.location.href = 'bio.html'; // เปิดใช้บรรทัดนี้ถ้าจะให้ลิงก์ไปหน้าอื่นต่อ
+        function spawnSnowflakes() {
+            const coords = [
+                { x: '15vw', y: '20vh' },
+                { x: '70vw', y: '75vh' },
+                { x: '75vw', y: '15vh' }
+            ];
+
+            coords.forEach((pos) => {
+                let snow = document.createElement('div');
+                snow.className = 'scattered-snow';
+                snow.innerHTML = '❄️';
+                snow.style.left = pos.x;
+                snow.style.top = pos.y;
+
+                function collectSnow(e) {
+                    e.preventDefault();
+                    snow.remove();
+                    snowCollected++;
+                    
+                    if (snowCollected >= 3) {
+                        phase = 3;
+                        meterBox.style.display = 'none';
+                        subInstruction.style.display = 'none';
+                        statusText.innerText = 'ผ่านด่านหิมะแล้ว! 🎉';
+                        captchaBox.style.display = 'flex';
+                        petSpeech.innerText = 'เก่งนี่นา! เหลือด่านสุดท้ายแล้ว 😼';
+                    }
+                }
+
+                snow.addEventListener('click', collectSnow);
+                snow.addEventListener('touchend', collectSnow);
+                document.body.appendChild(snow);
+            });
+        }
+
+        captchaSubmit.addEventListener('click', function() {
+            let val = captchaInput.value.trim();
+            if (val === 'อยากดู') {
+                captchaBox.style.display = 'none';
+                statusText.innerText = 'ยินดีต้อนรับสู่โลกของฉัน ✨';
+                bioChoiceBox.style.display = 'flex';
+                petSpeech.innerText = 'เย่! ไปหน้าไบโอกันเถอะ 🚀';
+            } else {
+                statusText.innerText = 'พิมพ์คำว่า "อยากดู" ให้ถูกนะ! 💢';
+            }
+        });
+
+        // ปุ่มหนี
+        btnNot.addEventListener('mouseover', moveNotButton);
+        btnNot.addEventListener('touchstart', function(e) {
+            e.preventDefault();
+            moveNotButton();
+        });
+
+        function moveNotButton() {
+            let rx = (Math.random() - 0.5) * 120;
+            let ry = (Math.random() - 0.5) * 50;
+            btnNot.style.transform = `translate(${rx}px, ${ry}px)`;
+            petSpeech.innerText = 'หนีเก่งเหรอ ปุ่มนี้กดไม่ได้หรอก ฮ่าๆๆ 🏃‍♂️';
+        }
+
+        btnWant.addEventListener('click', function() {
+            statusText.innerText = 'กำลังพุ่งตัวไปหน้า Bio... 🚀';
+            petSpeech.innerText = 'เจอกันหน้าหลักนะ บั๊บบาย! 👋';
+            setTimeout(() => {
+                window.location.href = 'bio.html';
+            }, 600);
         });
     </script>
 </body>
