@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plern / Zen - Welcome & Desktop Bio 💻✨</title>
+    <title>Welcome & Desktop Bio 🫧❄️</title>
     <style>
         * {
             box-sizing: border-box;
@@ -22,7 +22,7 @@
             background: var(--bg-color, #f4f8fb);
             font-family: sans-serif;
             position: relative;
-            padding: 30px;
+            padding: 40px 20px;
             overflow: hidden;
         }
 
@@ -39,6 +39,7 @@
             --window-header: #e2eafc;
             --border-color: #a8dadc;
             --icon-hover: rgba(0, 119, 182, 0.1);
+            --input-bg: #f8f9fa;
         }
 
         body.dark-theme {
@@ -54,8 +55,10 @@
             --window-header: #1d2d44;
             --border-color: #48cae4;
             --icon-hover: rgba(72, 202, 228, 0.15);
+            --input-bg: #16263d;
         }
 
+        /* พายุหิมะ / เกล็ดหิมะโปรยพื้นหลัง */
         .ambient-snow {
             position: fixed;
             top: -20px;
@@ -73,7 +76,7 @@
             100% { transform: translateY(105vh) rotate(360deg); opacity: 0; }
         }
 
-        /* --- ส่วนที่ 1: หน้าต้อนรับ (Welcome View) --- */
+        /* --- ส่วนที่ 1: หน้า Welcome & เกมจิ้มฟองสบู่ --- */
         #welcomeView {
             display: flex;
             flex-direction: column;
@@ -83,7 +86,7 @@
             height: 100%;
             position: absolute;
             z-index: 20;
-            transition: opacity 0.5s ease;
+            transition: opacity 0.6s ease;
         }
 
         .welcome-card {
@@ -232,8 +235,12 @@
             z-index: 25;
             animation: floatSlow 2s ease-in-out infinite alternate;
             filter: drop-shadow(0 4px 8px rgba(0,119,182,0.2));
-            transition: transform 0.2s;
+            transition: transform 0.2s, opacity 0.2s;
             -webkit-tap-highlight-color: transparent;
+        }
+
+        .scattered-snow:hover {
+            transform: scale(1.3);
         }
 
         @keyframes floatSlow {
@@ -255,7 +262,7 @@
         }
 
 
-        /* --- ส่วนที่ 2: หน้าเดสก์ท็อป Bio (Desktop View) --- */
+        /* --- ส่วนที่ 2: หน้า Desktop Bio --- */
         #desktopView {
             display: none;
             flex-direction: column;
@@ -341,13 +348,13 @@
             letter-spacing: 0.5px;
         }
 
-        /* หน้าต่างป๊อปอัป (Windows Popup) */
+        /* หน้าต่างป๊อปอัปแยกแต่ละไฟล์ (Windows Modal) */
         .window-modal {
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) scale(0.9);
-            width: 330px;
+            width: 320px;
             background: var(--card-bg);
             border: 2px solid var(--border-color);
             border-radius: 16px;
@@ -373,6 +380,7 @@
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid var(--border-color);
+            cursor: grab;
         }
 
         .window-title {
@@ -401,8 +409,8 @@
             line-height: 1.6;
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            max-height: 300px;
+            gap: 12px;
+            max-height: 320px;
             overflow-y: auto;
         }
 
@@ -412,6 +420,47 @@
 
         body.dark-theme .window-body strong {
             color: #48cae4;
+        }
+
+        /* ฟอร์มส่งข้อความ Formspree ใน Socials.lnk */
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 5px;
+        }
+
+        .contact-input, .contact-textarea {
+            width: 100%;
+            padding: 8px 10px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: var(--input-bg);
+            color: var(--text-color);
+            font-size: 11px;
+            outline: none;
+            font-family: sans-serif;
+        }
+
+        .contact-textarea {
+            resize: vertical;
+            min-height: 50px;
+        }
+
+        .contact-submit {
+            background: #0077b6;
+            color: #fff;
+            border: none;
+            padding: 7px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .contact-submit:hover {
+            background: #005f87;
         }
 
 
@@ -470,7 +519,7 @@
 </head>
 <body class="light-theme">
 
-    <!-- บรรยากาศหิมะตกพื้นหลัง -->
+    <!-- พายุหิมะ / เกล็ดหิมะตกลงมาเรื่อยๆ -->
     <script>
         function createAmbientSnow() {
             const snow = document.createElement('div');
@@ -488,7 +537,7 @@
         setInterval(createAmbientSnow, 400);
     </script>
 
-    <!-- ================= SECTION 1: หน้าต้อนรับ ================= -->
+    <!-- ================= SECTION 1: หน้า Welcome & เกมจิ้มฟองสบู่ ================= -->
     <div id="welcomeView">
         <div class="welcome-card" id="welcomeCard">
             <button class="theme-toggle" id="themeToggleBtn" title="เปลี่ยนธีม">🌙</button>
@@ -513,10 +562,10 @@
     </div>
 
 
-    <!-- ================= SECTION 2: หน้าเดสก์ท็อป Bio ================= -->
+    <!-- ================= SECTION 2: หน้า Desktop Bio ================= -->
     <div id="desktopView">
         <div class="desktop-top-controls">
-            <button class="control-btn" onclick="resetToWelcome()">🏠 หน้าแรก</button>
+            <button class="control-btn" onclick="resetToWelcome()">🏠 กลับหน้าแรก</button>
         </div>
 
         <!-- เดสก์ท็อปไอคอน 4 ไฟล์ -->
@@ -546,7 +595,9 @@
     </div>
 
 
-    <!-- ================= ป๊อปอัปหน้าต่างทั้ง 4 ================= -->
+    <!-- ================= ป๊อปอัปหน้าต่างทั้ง 4 (เปิดซ้อนหรือปิดแยกกันได้) ================= -->
+    
+    <!-- 1. Socials.lnk (รวมช่องข้อความ Formspree ที่แก้แล้ว) -->
     <div class="window-modal" id="winSocial">
         <div class="window-header">
             <div class="window-title">🌐 Socials.lnk</div>
@@ -557,9 +608,17 @@
             <p><strong>ID Line:</strong> catminda</p>
             <p><strong>Instagram:</strong> pernname</p>
             <p><strong>Discord:</strong> nabe_n.b</p>
+            <hr style="border:0; border-top:1px solid var(--border-color); margin: 2px 0;">
+            <p style="font-weight: bold; margin-bottom: -4px;">💌 ทิ้งข้อความหาเราได้นะ:</p>
+            <form action="https://formspree.io/f/xeoodryv" method="POST" class="contact-form">
+                <input type="text" name="name" class="contact-input" placeholder="ชื่อของคุณ..." required>
+                <textarea name="message" class="contact-textarea" placeholder="พิมพ์ข้อความ..." required></textarea>
+                <button type="submit" class="contact-submit">ส่งข้อความ ✨</button>
+            </form>
         </div>
     </div>
 
+    <!-- 2. About_Me.txt -->
     <div class="window-modal" id="winAbout">
         <div class="window-header">
             <div class="window-title">🐰 About_Me.txt</div>
@@ -572,288 +631,7 @@
         </div>
     </div>
 
+    <!-- 3. Hobbies.mp3 -->
     <div class="window-modal" id="winHobby">
         <div class="window-header">
-            <div class="window-title">🎵 Hobbies.mp3</div>
-            <button class="window-close" onclick="closeWindow('winHobby')"></button>
-        </div>
-        <div class="window-body">
-            <p><strong>เพลง/ศิลปินที่ชอบ:</strong><br>• ลบไม่ได้ช่วยให้ลืม<br>• Just for you / D Gerrard</p>
-            <p><strong>งานอดิเรก:</strong><br>วาดรูป / ฟังเพลง / อ่านมังงะ / อ่านนิยาย / ดูซีรีส์ ☕</p>
-        </div>
-    </div>
-
-    <div class="window-modal" id="winSecret">
-        <div class="window-header">
-            <div class="window-title">🔒 Secret.exe</div>
-            <button class="window-close" onclick="closeWindow('winSecret')"></button>
-        </div>
-        <div class="window-body">
-            <p>ไม่มีอะไรหรอก 55555 แวะมาเปิดดูเฉยๆ สินะ 🤭</p>
-        </div>
-    </div>
-
-
-    <!-- ================= ตัวละครน้องกระต่ายพูดได้ ================= -->
-    <div class="pet-container" id="petBox" title="จิ้มน้องสิ!">
-        <div class="pet-speech-bubble" id="petSpeech">แง้ม... จิ้มฟองสบู่ยังอะ? 🐾</div>
-        <div class="pet-avatar" id="petAvatar">🐰</div>
-    </div>
-
-
-    <!-- ================= จาวาสคริปต์ควบคุมทั้งหมด ================= -->
-<script>
-let audioCtx = null;
-let power = 0;
-
-function initAudio() {
-    if (!audioCtx) {
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    }
-
-    if (audioCtx.state === 'suspended') {
-        audioCtx.resume();
-    }
-}
-
-function playPopSound() {
-    try {
-        initAudio();
-
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(400, audioCtx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(
-            800,
-            audioCtx.currentTime + 0.08
-        );
-
-        gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(
-            0.001,
-            audioCtx.currentTime + 0.15
-        );
-
-        osc.start();
-        osc.stop(audioCtx.currentTime + 0.15);
-    } catch (e) {
-        console.log("Audio error:", e);
-    }
-}
-
-
-/* =========================
-   เวลา
-========================= */
-
-function updateTime() {
-    const now = new Date();
-    const hour = now.getHours();
-
-    let greeting;
-
-    if (hour >= 5 && hour < 12) {
-        greeting = "อรุณสวัสดิ์ ☀️";
-    } else if (hour >= 12 && hour < 18) {
-        greeting = "สวัสดีตอนบ่าย 🌤️";
-    } else {
-        greeting = "สวัสดีตอนกลางคืน 🌙";
-    }
-
-    document.getElementById("statusText").textContent = greeting;
-}
-
-updateTime();
-
-
-/* =========================
-   ฟองสบู่
-========================= */
-
-const interactiveBtn = document.getElementById("interactiveBtn");
-const powerFill = document.getElementById("powerFill");
-const meterBox = document.getElementById("meterBox");
-const subInstruction = document.getElementById("subInstruction");
-const bioChoiceBox = document.getElementById("bioChoiceBox");
-
-interactiveBtn.addEventListener("click", function () {
-    initAudio();
-    playPopSound();
-
-    power += 10;
-
-    if (power > 100) {
-        power = 100;
-    }
-
-    powerFill.style.width = power + "%";
-
-    interactiveBtn.classList.add("active");
-
-    setTimeout(() => {
-        interactiveBtn.classList.remove("active");
-    }, 100);
-
-    if (power >= 100) {
-        document.getElementById("statusText").textContent =
-            "พลังเต็มแล้ว! ✨";
-
-        meterBox.style.display = "none";
-        subInstruction.style.display = "none";
-        interactiveBtn.style.display = "none";
-
-        bioChoiceBox.style.display = "flex";
-    } else {
-        document.getElementById("statusText").textContent =
-            "อีกนิดเดียววว... " + power + "%";
-    }
-});
-
-
-/* =========================
-   เปลี่ยนธีม
-========================= */
-
-const themeToggleBtn = document.getElementById("themeToggleBtn");
-
-themeToggleBtn.addEventListener("click", function () {
-    document.body.classList.toggle("dark-theme");
-    document.body.classList.toggle("light-theme");
-
-    if (document.body.classList.contains("dark-theme")) {
-        themeToggleBtn.textContent = "☀️";
-    } else {
-        themeToggleBtn.textContent = "🌙";
-    }
-});
-
-
-/* =========================
-   ปุ่มอยากดูไบโอ
-========================= */
-
-const btnWant = document.getElementById("btnWant");
-const btnNot = document.getElementById("btnNot");
-
-btnWant.addEventListener("click", function () {
-    document.getElementById("welcomeView").style.display = "none";
-
-    const desktop = document.getElementById("desktopView");
-    desktop.classList.add("active");
-});
-
-
-/* =========================
-   ปุ่มไม่อยาก
-========================= */
-
-btnNot.addEventListener("click", function () {
-    document.getElementById("questionText").textContent =
-        "แน่ใจนะะะ 🤨";
-
-    btnNot.style.transform = "translateX(80px)";
-    btnNot.style.opacity = "0";
-});
-
-
-/* =========================
-   เปิดหน้าต่าง
-========================= */
-
-function openWindow(id) {
-    const win = document.getElementById(id);
-
-    if (win) {
-        win.classList.add("active");
-    }
-}
-
-
-/* =========================
-   ปิดหน้าต่าง
-========================= */
-
-function closeWindow(id) {
-    const win = document.getElementById(id);
-
-    if (win) {
-        win.classList.remove("active");
-    }
-}
-
-
-/* =========================
-   กลับหน้าแรก
-========================= */
-
-function resetToWelcome() {
-    document.querySelectorAll(".window-modal").forEach(function (win) {
-        win.classList.remove("active");
-    });
-
-    document.getElementById("desktopView").classList.remove("active");
-
-    const welcome = document.getElementById("welcomeView");
-    welcome.style.display = "flex";
-
-    power = 0;
-    powerFill.style.width = "0%";
-
-    interactiveBtn.style.display = "inline-block";
-    meterBox.style.display = "block";
-    subInstruction.style.display = "block";
-    bioChoiceBox.style.display = "none";
-
-    document.getElementById("statusText").textContent =
-        "กำลังโหลดเวลา...";
-    
-    setTimeout(updateTime, 300);
-}
-
-
-/* =========================
-   น้องกระต่าย
-========================= */
-
-const petBox = document.getElementById("petBox");
-const petSpeech = document.getElementById("petSpeech");
-
-petBox.addEventListener("click", function () {
-    const messages = [
-        "จิ้มเค้าทำไมง่าา 🐰",
-        "ฟองสบู่ยังไม่ครบเลยย",
-        "อย่าจิ้มน้องงง 😭",
-        "กดฟองสบู่สิ! 🫧",
-        "แอบมองอยู่หรอ 👀"
-    ];
-
-    const random =
-        messages[Math.floor(Math.random() * messages.length)];
-
-    petSpeech.textContent = random;
-});
-
-
-/* =========================
-   คลิกนอกหน้าต่างเพื่อปิด
-========================= */
-
-document.addEventListener("click", function (event) {
-    const windows = document.querySelectorAll(".window-modal");
-
-    windows.forEach(function (win) {
-        if (
-            win.classList.contains("active") &&
-            !win.contains(event.target) &&
-            !event.target.closest(".desktop-icon")
-        ) {
-            win.classList.remove("active");
-        }
-    });
-});
-            </script>
+            <div class="window-title">🎵
