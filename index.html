@@ -602,28 +602,258 @@
 
 
     <!-- ================= จาวาสคริปต์ควบคุมทั้งหมด ================= -->
-    <script>
-        let audioCtx = null;
-        function initAudio() {
-            if (!audioCtx) {
-                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            }
-            if (audioCtx.state === 'suspended') {
-                audioCtx.resume();
-            }
-        }
+<script>
+let audioCtx = null;
+let power = 0;
 
-        function playPopSound() {
-            try {
-                initAudio();
-                let osc = audioCtx.createOscillator();
-                let gain = audioCtx.createGain();
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-                
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(400, audioCtx.currentTime);
-                osc.frequency.exponentialRampToValueAtTime(800, audioCtx.currentTime + 0.08);
-                
-                gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtT
+function initAudio() {
+    if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+
+    if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+    }
+}
+
+function playPopSound() {
+    try {
+        initAudio();
+
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(400, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(
+            800,
+            audioCtx.currentTime + 0.08
+        );
+
+        gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(
+            0.001,
+            audioCtx.currentTime + 0.15
+        );
+
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.15);
+    } catch (e) {
+        console.log("Audio error:", e);
+    }
+}
+
+
+/* =========================
+   เวลา
+========================= */
+
+function updateTime() {
+    const now = new Date();
+    const hour = now.getHours();
+
+    let greeting;
+
+    if (hour >= 5 && hour < 12) {
+        greeting = "อรุณสวัสดิ์ ☀️";
+    } else if (hour >= 12 && hour < 18) {
+        greeting = "สวัสดีตอนบ่าย 🌤️";
+    } else {
+        greeting = "สวัสดีตอนกลางคืน 🌙";
+    }
+
+    document.getElementById("statusText").textContent = greeting;
+}
+
+updateTime();
+
+
+/* =========================
+   ฟองสบู่
+========================= */
+
+const interactiveBtn = document.getElementById("interactiveBtn");
+const powerFill = document.getElementById("powerFill");
+const meterBox = document.getElementById("meterBox");
+const subInstruction = document.getElementById("subInstruction");
+const bioChoiceBox = document.getElementById("bioChoiceBox");
+
+interactiveBtn.addEventListener("click", function () {
+    initAudio();
+    playPopSound();
+
+    power += 10;
+
+    if (power > 100) {
+        power = 100;
+    }
+
+    powerFill.style.width = power + "%";
+
+    interactiveBtn.classList.add("active");
+
+    setTimeout(() => {
+        interactiveBtn.classList.remove("active");
+    }, 100);
+
+    if (power >= 100) {
+        document.getElementById("statusText").textContent =
+            "พลังเต็มแล้ว! ✨";
+
+        meterBox.style.display = "none";
+        subInstruction.style.display = "none";
+        interactiveBtn.style.display = "none";
+
+        bioChoiceBox.style.display = "flex";
+    } else {
+        document.getElementById("statusText").textContent =
+            "อีกนิดเดียววว... " + power + "%";
+    }
+});
+
+
+/* =========================
+   เปลี่ยนธีม
+========================= */
+
+const themeToggleBtn = document.getElementById("themeToggleBtn");
+
+themeToggleBtn.addEventListener("click", function () {
+    document.body.classList.toggle("dark-theme");
+    document.body.classList.toggle("light-theme");
+
+    if (document.body.classList.contains("dark-theme")) {
+        themeToggleBtn.textContent = "☀️";
+    } else {
+        themeToggleBtn.textContent = "🌙";
+    }
+});
+
+
+/* =========================
+   ปุ่มอยากดูไบโอ
+========================= */
+
+const btnWant = document.getElementById("btnWant");
+const btnNot = document.getElementById("btnNot");
+
+btnWant.addEventListener("click", function () {
+    document.getElementById("welcomeView").style.display = "none";
+
+    const desktop = document.getElementById("desktopView");
+    desktop.classList.add("active");
+});
+
+
+/* =========================
+   ปุ่มไม่อยาก
+========================= */
+
+btnNot.addEventListener("click", function () {
+    document.getElementById("questionText").textContent =
+        "แน่ใจนะะะ 🤨";
+
+    btnNot.style.transform = "translateX(80px)";
+    btnNot.style.opacity = "0";
+});
+
+
+/* =========================
+   เปิดหน้าต่าง
+========================= */
+
+function openWindow(id) {
+    const win = document.getElementById(id);
+
+    if (win) {
+        win.classList.add("active");
+    }
+}
+
+
+/* =========================
+   ปิดหน้าต่าง
+========================= */
+
+function closeWindow(id) {
+    const win = document.getElementById(id);
+
+    if (win) {
+        win.classList.remove("active");
+    }
+}
+
+
+/* =========================
+   กลับหน้าแรก
+========================= */
+
+function resetToWelcome() {
+    document.querySelectorAll(".window-modal").forEach(function (win) {
+        win.classList.remove("active");
+    });
+
+    document.getElementById("desktopView").classList.remove("active");
+
+    const welcome = document.getElementById("welcomeView");
+    welcome.style.display = "flex";
+
+    power = 0;
+    powerFill.style.width = "0%";
+
+    interactiveBtn.style.display = "inline-block";
+    meterBox.style.display = "block";
+    subInstruction.style.display = "block";
+    bioChoiceBox.style.display = "none";
+
+    document.getElementById("statusText").textContent =
+        "กำลังโหลดเวลา...";
+    
+    setTimeout(updateTime, 300);
+}
+
+
+/* =========================
+   น้องกระต่าย
+========================= */
+
+const petBox = document.getElementById("petBox");
+const petSpeech = document.getElementById("petSpeech");
+
+petBox.addEventListener("click", function () {
+    const messages = [
+        "จิ้มเค้าทำไมง่าา 🐰",
+        "ฟองสบู่ยังไม่ครบเลยย",
+        "อย่าจิ้มน้องงง 😭",
+        "กดฟองสบู่สิ! 🫧",
+        "แอบมองอยู่หรอ 👀"
+    ];
+
+    const random =
+        messages[Math.floor(Math.random() * messages.length)];
+
+    petSpeech.textContent = random;
+});
+
+
+/* =========================
+   คลิกนอกหน้าต่างเพื่อปิด
+========================= */
+
+document.addEventListener("click", function (event) {
+    const windows = document.querySelectorAll(".window-modal");
+
+    windows.forEach(function (win) {
+        if (
+            win.classList.contains("active") &&
+            !win.contains(event.target) &&
+            !event.target.closest(".desktop-icon")
+        ) {
+            win.classList.remove("active");
+        }
+    });
+});
+            </script>
