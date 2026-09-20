@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome & Desktop Bio 🫧❄️</title>
+    <title>Plern / Zen - Welcome & Desktop Bio 💻✨</title>
     <style>
         * {
             box-sizing: border-box;
@@ -22,7 +22,7 @@
             background: var(--bg-color, #f4f8fb);
             font-family: sans-serif;
             position: relative;
-            padding: 40px 20px;
+            padding: 30px;
             overflow: hidden;
         }
 
@@ -39,7 +39,6 @@
             --window-header: #e2eafc;
             --border-color: #a8dadc;
             --icon-hover: rgba(0, 119, 182, 0.1);
-            --input-bg: #f8f9fa;
         }
 
         body.dark-theme {
@@ -55,10 +54,8 @@
             --window-header: #1d2d44;
             --border-color: #48cae4;
             --icon-hover: rgba(72, 202, 228, 0.15);
-            --input-bg: #16263d;
         }
 
-        /* พายุหิมะ / เกล็ดหิมะโปรยพื้นหลัง */
         .ambient-snow {
             position: fixed;
             top: -20px;
@@ -76,7 +73,7 @@
             100% { transform: translateY(105vh) rotate(360deg); opacity: 0; }
         }
 
-        /* --- ส่วนที่ 1: หน้า Welcome & เกมจิ้มฟองสบู่ --- */
+        /* --- ส่วนที่ 1: หน้าต้อนรับ (Welcome View) --- */
         #welcomeView {
             display: flex;
             flex-direction: column;
@@ -86,7 +83,7 @@
             height: 100%;
             position: absolute;
             z-index: 20;
-            transition: opacity 0.6s ease;
+            transition: opacity 0.5s ease;
         }
 
         .welcome-card {
@@ -190,29 +187,91 @@
             display: none;
             flex-direction: column;
             align-items: center;
-            gap: 15px;
-            margin-top: 5px;
+            gap: 12px;
+            margin-top: 2px;
+            width: 100%;
+            padding: 18px 14px 14px;
+            border: 1px solid var(--border-color);
+            border-radius: 18px;
+            background:
+                linear-gradient(145deg,
+                    rgba(255,255,255,0.72),
+                    rgba(226,234,252,0.52));
+            box-shadow:
+                0 10px 25px rgba(0,0,0,0.07),
+                inset 0 1px 0 rgba(255,255,255,0.75);
+            animation: choiceAppear 0.45s cubic-bezier(.2,.8,.2,1) both;
+            position: relative;
+            overflow: visible;
+        }
+
+        body.dark-theme .bio-choice-box {
+            background:
+                linear-gradient(145deg,
+                    rgba(29,45,68,0.95),
+                    rgba(17,29,45,0.92));
+            box-shadow:
+                0 12px 28px rgba(0,0,0,0.28),
+                inset 0 1px 0 rgba(255,255,255,0.05);
+        }
+
+        .bio-choice-box::before {
+            content: "BIO REQUEST";
+            position: absolute;
+            top: -9px;
+            left: 16px;
+            padding: 2px 8px;
+            border-radius: 8px;
+            background: var(--tag-bg);
+            color: #fff;
+            font-size: 8px;
+            font-weight: 800;
+            letter-spacing: 1.2px;
+            box-shadow: 0 3px 8px rgba(0,119,182,0.18);
+        }
+
+        @keyframes choiceAppear {
+            0% {
+                opacity: 0;
+                transform: translateY(10px) scale(0.94);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
         }
 
         .choice-buttons {
             display: flex;
-            gap: 12px;
+            gap: 10px;
             justify-content: center;
+            align-items: center;
             position: relative;
             width: 100%;
-            min-height: 40px;
+            min-height: 48px;
         }
 
         .choice-btn {
-            padding: 8px 18px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
+            min-width: 92px;
+            padding: 9px 15px;
+            border-radius: 11px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.3px;
             cursor: pointer;
-            border: none;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
+            border: 1px solid transparent;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            transition:
+                transform 0.22s cubic-bezier(.2,.8,.2,1),
+                opacity 0.45s ease,
+                box-shadow 0.22s ease,
+                background 0.22s ease;
             -webkit-tap-highlight-color: transparent;
+            user-select: none;
+        }
+
+        .choice-btn:active {
+            transform: scale(0.94);
         }
 
         .btn-want {
@@ -220,12 +279,45 @@
             color: #fff;
             position: relative;
             z-index: 20;
+            border-color: rgba(255,255,255,0.22);
+            box-shadow:
+                0 5px 14px rgba(0,119,182,0.24),
+                inset 0 1px 0 rgba(255,255,255,0.2);
+        }
+
+        .btn-want::after {
+            content: "→";
+            display: inline-block;
+            margin-left: 6px;
+            transition: transform 0.2s ease;
+        }
+
+        .btn-want:hover {
+            box-shadow:
+                0 7px 18px rgba(0,119,182,0.30),
+                inset 0 1px 0 rgba(255,255,255,0.2);
+        }
+
+        .btn-want:hover::after {
+            transform: translateX(3px);
         }
 
         .btn-not {
-            background: var(--meter-bg);
+            background: transparent;
             color: var(--sub-text);
-            transition: opacity 0.5s ease, transform 0.5s ease;
+            border-color: var(--border-color);
+            transition:
+                opacity 0.55s ease,
+                transform 0.55s cubic-bezier(.2,.8,.2,1),
+                background 0.22s ease;
+        }
+
+        .btn-not:hover {
+            background: var(--meter-bg);
+        }
+
+        body.dark-theme .btn-not:hover {
+            background: rgba(72,202,228,0.10);
         }
 
         .scattered-snow {
@@ -235,12 +327,8 @@
             z-index: 25;
             animation: floatSlow 2s ease-in-out infinite alternate;
             filter: drop-shadow(0 4px 8px rgba(0,119,182,0.2));
-            transition: transform 0.2s, opacity 0.2s;
+            transition: transform 0.2s;
             -webkit-tap-highlight-color: transparent;
-        }
-
-        .scattered-snow:hover {
-            transform: scale(1.3);
         }
 
         @keyframes floatSlow {
@@ -262,7 +350,7 @@
         }
 
 
-        /* --- ส่วนที่ 2: หน้า Desktop Bio --- */
+        /* --- ส่วนที่ 2: หน้าเดสก์ท็อป Bio (Desktop View) --- */
         #desktopView {
             display: none;
             flex-direction: column;
@@ -348,13 +436,13 @@
             letter-spacing: 0.5px;
         }
 
-        /* หน้าต่างป๊อปอัปแยกแต่ละไฟล์ (Windows Modal) */
+        /* หน้าต่างป๊อปอัป (Windows Popup) */
         .window-modal {
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) scale(0.9);
-            width: 320px;
+            width: 330px;
             background: var(--card-bg);
             border: 2px solid var(--border-color);
             border-radius: 16px;
@@ -380,7 +468,6 @@
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid var(--border-color);
-            cursor: grab;
         }
 
         .window-title {
@@ -409,8 +496,8 @@
             line-height: 1.6;
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            max-height: 320px;
+            gap: 10px;
+            max-height: 300px;
             overflow-y: auto;
         }
 
@@ -422,216 +509,202 @@
             color: #48cae4;
         }
 
-        /* ฟอร์มส่งข้อความ Formspree ใน Socials.lnk */
-        .contact-form {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            margin-top: 5px;
+
+
+        /* =========================
+           เนื้อหาแฟ้มแบบ Desktop UI
+        ========================= */
+
+        .window-body {
+            padding: 0;
+            gap: 0;
+            max-height: 340px;
+            overflow-y: auto;
+            scrollbar-width: thin;
         }
 
-        .contact-input, .contact-textarea {
-            width: 100%;
-            padding: 8px 10px;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-            background: var(--input-bg);
+        .file-hero {
+            padding: 18px 18px 14px;
+            background:
+                radial-gradient(circle at 90% 10%, rgba(72,202,228,0.18), transparent 35%),
+                linear-gradient(145deg, rgba(226,234,252,0.72), rgba(255,255,255,0.45));
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        body.dark-theme .file-hero {
+            background:
+                radial-gradient(circle at 90% 10%, rgba(72,202,228,0.12), transparent 35%),
+                linear-gradient(145deg, rgba(29,45,68,0.9), rgba(17,29,45,0.8));
+        }
+
+        .file-kicker {
+            font-size: 8px;
+            letter-spacing: 1.5px;
+            font-weight: 800;
+            color: var(--tag-bg);
+            margin-bottom: 5px;
+        }
+
+        .file-heading {
+            font-size: 17px;
+            font-weight: 900;
             color: var(--text-color);
-            font-size: 11px;
-            outline: none;
-            font-family: sans-serif;
+            letter-spacing: -0.2px;
         }
 
-        .contact-textarea {
-            resize: vertical;
-            min-height: 50px;
+        .file-subheading {
+            margin-top: 4px;
+            font-size: 9px;
+            line-height: 1.5;
+            color: var(--sub-text);
         }
 
-        .contact-submit {
-            background: #0077b6;
-            color: #fff;
-            border: none;
-            padding: 7px;
-            border-radius: 8px;
-            font-size: 11px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background 0.2s;
+        .file-section {
+            padding: 13px 18px;
+            border-bottom: 1px dashed var(--border-color);
         }
 
-        .contact-submit:hover {
-            background: #005f87;
+        .file-section:last-child {
+            border-bottom: none;
         }
 
+        .section-label {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 9px;
+            font-size: 8px;
+            font-weight: 900;
+            letter-spacing: 1.1px;
+            color: var(--sub-text);
+            text-transform: uppercase;
+        }
+
+        .section-label span:last-child {
+            color: var(--tag-bg);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 7px;
+        }
+
+        .info-card {
+            padding: 9px 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            background: rgba(255,255,255,0.38);
+        }
+
+        body.dark-theme .info-card {
+            background: rgba(255,255,255,0.025);
+        }
+
+        .info-card small {
+            display: block;
+            margin-bottom: 3px;
+            font-size: 8px;
+            color: var(--sub-text);
+            letter-spacing: 0.5px;
+        }
+
+        .info-card strong {
+            display: block;
+            font-size: 10px;
+            color: var(--text-color);
+            line-height: 1.4;
+        }
+
+        .social-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 9px 0;
+            border-bottom: 1px solid rgba(168,218,220,0.35);
+        }
+
+        .social-row:last-child {
+            border-bottom: none;
+        }
+
+        .social-name {
+            font-size: 9px;
+            color: var(--sub-text);
+            font-weight: 700;
+        }
+
+        .social-value {
+            font-size: 10px;
+            color: var(--text-color);
+            font-weight: 800;
+            text-align: right;
+        }
+
+        .hobby-chip-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+        }
+
+        .hobby-chip {
+            padding: 6px 9px;
+            border-radius: 9px;
+            border: 1px solid var(--border-color);
+            background: var(--meter-bg);
+            color: var(--text-color);
+            font-size: 9px;
+            font-weight: 700;
+        }
+
+        .quote-box {
+            padding: 11px 12px;
+            border-left: 3px solid var(--tag-bg);
+            border-radius: 0 9px 9px 0;
+            background: rgba(0,119,182,0.055);
+            color: var(--text-color);
+            font-size: 10px;
+            line-height: 1.65;
+        }
+
+        body.dark-theme .quote-box {
+            background: rgba(72,202,228,0.06);
+        }
+
+        .secret-lock {
+            text-align: center;
+            padding: 20px 10px 22px;
+        }
+
+        .secret-lock-icon {
+            font-size: 38px;
+            margin-bottom: 8px;
+            filter: drop-shadow(0 4px 8px rgba(0,119,182,0.18));
+        }
+
+        .secret-code {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 5px 9px;
+            border: 1px dashed var(--border-color);
+            border-radius: 7px;
+            font-family: monospace;
+            font-size: 8px;
+            color: var(--sub-text);
+            letter-spacing: 1px;
+        }
+
+        .file-footer {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 18px;
+            background: var(--window-header);
+            color: var(--sub-text);
+            font-family: monospace;
+            font-size: 7px;
+            letter-spacing: 0.5px;
+        }
 
         /* --- ตัวละครน้องกระต่ายมุมจอ --- */
-        .pet-container {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            display: flex;
-            align-items: flex-end;
-            gap: 8px;
-            z-index: 50;
-            cursor: pointer;
-            user-select: none;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        .pet-speech-bubble {
-            background: var(--pet-bg);
-            color: var(--text-color);
-            padding: 8px 12px;
-            border-radius: 12px;
-            font-size: 11px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            border: 1px solid var(--sub-text);
-            max-width: 160px;
-            text-align: right;
-            animation: bounceBubble 2s ease-in-out infinite alternate;
-            opacity: 0.95;
-        }
-
-        @keyframes bounceBubble {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(-4px); }
-        }
-
-        .pet-avatar {
-            font-size: 38px;
-            filter: drop-shadow(0 3px 6px rgba(0,0,0,0.15));
-            animation: petIdle 1.5s ease-in-out infinite alternate;
-        }
-
-        @keyframes petIdle {
-            0% { transform: translateY(0) rotate(-3deg); }
-            100% { transform: translateY(-6px) rotate(3deg); }
-        }
-
-        .footer-text {
-            font-size: 11px;
-            letter-spacing: 1.5px;
-            color: var(--sub-text);
-            user-select: none;
-            z-index: 10;
-        }
-    </style>
-</head>
-<body class="light-theme">
-
-    <!-- พายุหิมะ / เกล็ดหิมะตกลงมาเรื่อยๆ -->
-    <script>
-        function createAmbientSnow() {
-            const snow = document.createElement('div');
-            snow.className = 'ambient-snow';
-            snow.innerHTML = Math.random() > 0.5 ? '❄️' : '✨';
-            snow.style.left = Math.random() * 100 + 'vw';
-            snow.style.fontSize = (12 + Math.random() * 16) + 'px';
-            
-            const duration = 4 + Math.random() * 6;
-            snow.style.animationDuration = duration + 's';
-            
-            document.body.appendChild(snow);
-            setTimeout(() => snow.remove(), duration * 1000);
-        }
-        setInterval(createAmbientSnow, 400);
-    </script>
-
-    <!-- ================= SECTION 1: หน้า Welcome & เกมจิ้มฟองสบู่ ================= -->
-    <div id="welcomeView">
-        <div class="welcome-card" id="welcomeCard">
-            <button class="theme-toggle" id="themeToggleBtn" title="เปลี่ยนธีม">🌙</button>
-            <div class="card-tag">WELCOME</div>
-            
-            <span class="main-icon" id="interactiveBtn">🫧</span>
-            <div class="text" id="statusText">กำลังโหลดเวลา...</div>
-            <div class="power-meter-container" id="meterBox">
-                <div class="power-meter-fill" id="powerFill"></div>
-            </div>
-            <div class="click-instruction" id="subInstruction">คลิกที่ฟองสบู่รัวๆ!</div>
-
-            <div class="bio-choice-box" id="bioChoiceBox">
-                <div class="text" id="questionText" style="margin-bottom: 5px;">อยากเห็นไบโอเรารึเปล่าาา กดสิ 🤭</div>
-                <div class="choice-buttons">
-                    <button class="choice-btn btn-not" id="btnNot">ไม่อยาก</button>
-                    <button class="choice-btn btn-want" id="btnWant">อยาก</button>
-                </div>
-            </div>
-        </div>
-        <div class="footer-text" style="margin-top: 25px;">est. 2026  ·  made with ♡</div>
-    </div>
-
-
-    <!-- ================= SECTION 2: หน้า Desktop Bio ================= -->
-    <div id="desktopView">
-        <div class="desktop-top-controls">
-            <button class="control-btn" onclick="resetToWelcome()">🏠 กลับหน้าแรก</button>
-        </div>
-
-        <!-- เดสก์ท็อปไอคอน 4 ไฟล์ -->
-        <div class="desktop-grid">
-            <div class="desktop-icon" onclick="openWindow('winSocial')">
-                <span class="icon-symbol">🌐</span>
-                <span class="icon-label">Socials.lnk</span>
-            </div>
-
-            <div class="desktop-icon" onclick="openWindow('winAbout')">
-                <span class="icon-symbol">🐰</span>
-                <span class="icon-label">About_Me.txt</span>
-            </div>
-
-            <div class="desktop-icon" onclick="openWindow('winHobby')">
-                <span class="icon-symbol">🎵</span>
-                <span class="icon-label">Hobbies.mp3</span>
-            </div>
-
-            <div class="desktop-icon" onclick="openWindow('winSecret')">
-                <span class="icon-symbol">🔒</span>
-                <span class="icon-label">Secret.exe</span>
-            </div>
-        </div>
-
-        <div class="footer-text">Plern & Zen's Desktop · est. 2026</div>
-    </div>
-
-
-    <!-- ================= ป๊อปอัปหน้าต่างทั้ง 4 (เปิดซ้อนหรือปิดแยกกันได้) ================= -->
-    
-    <!-- 1. Socials.lnk (รวมช่องข้อความ Formspree ที่แก้แล้ว) -->
-    <div class="window-modal" id="winSocial">
-        <div class="window-header">
-            <div class="window-title">🌐 Socials.lnk</div>
-            <button class="window-close" onclick="closeWindow('winSocial')"></button>
-        </div>
-        <div class="window-body">
-            <p><strong>TikTok:</strong> @coku22</p>
-            <p><strong>ID Line:</strong> catminda</p>
-            <p><strong>Instagram:</strong> pernname</p>
-            <p><strong>Discord:</strong> nabe_n.b</p>
-            <hr style="border:0; border-top:1px solid var(--border-color); margin: 2px 0;">
-            <p style="font-weight: bold; margin-bottom: -4px;">💌 ทิ้งข้อความหาเราได้นะ:</p>
-            <form action="https://formspree.io/f/xeoodryv" method="POST" class="contact-form">
-                <input type="text" name="name" class="contact-input" placeholder="ชื่อของคุณ..." required>
-                <textarea name="message" class="contact-textarea" placeholder="พิมพ์ข้อความ..." required></textarea>
-                <button type="submit" class="contact-submit">ส่งข้อความ ✨</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- 2. About_Me.txt -->
-    <div class="window-modal" id="winAbout">
-        <div class="window-header">
-            <div class="window-title">🐰 About_Me.txt</div>
-            <button class="window-close" onclick="closeWindow('winAbout')"></button>
-        </div>
-        <div class="window-body">
-            <p><strong>ชื่อ/นามปากกา:</strong> เพลิน / เซน</p>
-            <p><strong>วันเกิด:</strong> 14 เมษายน</p>
-            <p><strong>เกี่ยวกับตัวเอง:</strong> ขี้เกียจพอควร แต่เป็นมิตร (มิจ) นะ ทักมาคุยได้ ยินดีตอบม๊ากๆ ✨</p>
-        </div>
-    </div>
-
-    <!-- 3. Hobbies.mp3 -->
-    <div class="window-modal" id="winHobby">
-        <div class="window-header">
-            <div class="window-title">🎵
+       
